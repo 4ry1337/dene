@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "dene",
+    "name": "Dene",
     "slug": "dene",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "dene",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
@@ -32,6 +32,15 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-sqlite",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Noto_Sans_Mono/NotoSansMono-VariableFont_wdth,wght.ttf"
+          ]
         }
       ]
     ],
