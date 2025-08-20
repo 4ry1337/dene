@@ -2,6 +2,8 @@
 ---
 Project Name: Dene
 
+Target audience: Regular gym-goers (18–40 years old).
+
 ---
 Summary: A gym application that helps users track their workouts and monitor progress.
 
@@ -38,101 +40,39 @@ The MVP focuses on usability, simplicity, and compliance with GDPR.
 | Exercise | A specific activity with sets, reps, weights, and/or duration. |
 
 
-Dene is a standalone mobile app with no dependencies on external systems for the MVP. Future versions may integrate with Google Fit and add social features.
+## Constraints
 
-2.2 User Characteristics
+- Android platform only.
+- Development timeframe: 3 months for MVP.
+- Supported language: English only.
+- GDPR compliance required.
 
-Target audience: Regular gym-goers (18–40 years old).
+# Specific Requirements
+## Functional Requirements
 
-Expected skill level: Basic smartphone literacy, beginner-to-intermediate gym knowledge.
+- Workout & Routine Management:
+   - Provide a list of predefined exercises.
+   - Create, edit, and delete custom exercises.
+   - Create, edit, and delete routines and workouts.
+   - Log sets (reps, weight, duration).
+- Tracking & Progress:
+   - Provide history of completed workouts.
+   - Include a timer for rest periods.
+   - Provide streak tracking (consecutive workout days).
+- Notifications:
+   - Send push notifications for workout reminders.
+- Data Management
+   - Store workout data locally.
+   - Export workout history to CSV.
 
-2.3 Constraints
+## Non-Functional Requirements
+- Usability: The app must be intuitive and easy to use with minimal navigation steps.
+- Performance: All screens must load in under 2 seconds on mid-range Android devices.
+- Security: User data must be stored securely and encrypted.
+- Compliance: GDPR compliance must be maintained for data storage and privacy.
 
-Android platform only.
-
-Development timeframe: 3 months for MVP.
-
-Supported language: English only.
-
-GDPR compliance required.
-
-No analytics in MVP.
-
-2.4 Assumptions and Dependencies
-
-Users have Android smartphones.
-
-Notifications require user permissions.
-
-3. Specific Requirements
-3.1 Functional Requirements
-
-User Management
-
-The app shall allow users to create an account (email/password).
-
-The app shall allow login/logout.
-
-The app shall allow offline access after login.
-
-Workout & Routine Management
-
-The app shall provide a list of predefined exercises.
-
-The app shall allow users to create, edit, and delete custom exercises.
-
-The app shall allow users to create, edit, and delete routines and workouts.
-
-The app shall allow users to log sets (reps, weight, duration).
-
-Tracking & Progress
-
-The app shall provide history of completed workouts.
-
-The app shall include a timer for rest periods.
-
-The app shall provide streak tracking (consecutive workout days).
-
-Notifications
-
-The app shall send push notifications for workout reminders.
-
-The app shall notify users of streak achievements.
-
-Data Management
-
-The app shall store workout data locally.
-
-The app shall allow users to export workout history to CSV.
-
-3.2 Non-Functional Requirements
-
-Usability: The app must be intuitive and easy to use with minimal navigation steps.
-
-Performance: All screens must load in under 2 seconds on mid-range Android devices.
-
-Security: User data must be stored securely and encrypted.
-
-Compliance: GDPR compliance must be maintained for data storage and privacy.
-
-Reliability: The app must function offline without internet connectivity.
-
-4. Future Enhancements (Not in MVP)
-
-Expanded library of predefined exercises.
-
-Social features (sharing, friend challenges).
-
-Integration with Google Fit.
-
-Advanced analytics and performance tracking.
-
-Multi-language support.
-
-5. Success Criteria
-
-Minimum of 500 Play Market downloads within 3 months.
-
-User retention rate tracked (weekly active users logging workouts).
-
-Positive user feedback indicating ease of use.
+# Future Enhancements (Not in MVP)
+- Social features (sharing, friend challenges).
+- Integration with Google Fit.
+- Advanced analytics and performance tracking.
+- Multi-language support.
