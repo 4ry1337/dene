@@ -1,13 +1,10 @@
-import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
-
-export const shadow_xs: ViewStyle = {
+export const shadow_sm = {
   shadowColor: "#000",
   shadowOffset: {
     width: 0,
     height: 1,
   },
-  shadowRadius: 2,
-  shadowOpacity: 0.05,
+  shadowOpacity: 0.18,
+  shadowRadius: 1.00,
   elevation: 1,
-  boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
 }

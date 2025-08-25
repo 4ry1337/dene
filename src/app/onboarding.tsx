@@ -1,3 +1,5 @@
-export default function OnboardingScreen() {
+const OnboardingScreen = () => {
 
 }
+
+export default OnboardingScreen

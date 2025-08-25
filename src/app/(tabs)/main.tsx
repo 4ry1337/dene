@@ -1,11 +1,9 @@
-import { StyleSheet, useColorScheme, View } from 'react-native'
+import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text } from '@/shared/ui/components/text'
-import { useTheme } from '@/shared/hooks/useTheme'
-import { Button } from '@/shared/ui/components/button'
-import { HomeIcon } from 'lucide-react-native'
+import { useTheme } from '@/shared/hooks'
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Text, Textarea } from '@/shared/ui/components'
 
-export default function MainScreen() {
+const MainScreen = () => {
   const theme = useTheme()
 
   return (
@@ -13,31 +11,38 @@ export default function MainScreen() {
       <Text style={{
         color: theme.foreground,
       }}>Home</Text>
-      <View style={{
-        flexDirection: 'column',
-        paddingHorizontal: 10,
-        gap: 8,
-      }}>
-        <Button>
-          <Text>Home</Text>
-          <HomeIcon color={theme.primary_foreground} />
-        </Button>
-        <Button variant='secondary'>
-          <Text>Secondary</Text>
-        </Button>
-        <Button size='lg' variant='outline'>
-          <Text>Outline</Text>
-        </Button>
-        <Button variant='ghost'>
-          <Text>Ghost</Text>
-        </Button>
-        <Button variant='link'>
-          <Text>Link</Text>
-        </Button>
-        <Button variant='destructive'>
-          <Text>Link</Text>
-        </Button>
-      </View>
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            Rakhat
+          </CardTitle>
+          <CardDescription>
+            Rust developer
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <View>
+            <Textarea />
+          </View>
+        </CardContent>
+        <CardFooter
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            gap: 8
+          }}
+        >
+          <Button>
+            <Text>Subscribe</Text>
+          </Button>
+          <Button variant="outline">
+            <Text>Later</Text>
+          </Button>
+        </CardFooter>
+      </Card>
     </SafeAreaView>
   )
 }
+
+export default MainScreen 

@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar"
 import { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 
-export default function RootLayout() {
+const RootLayout = () => {
   const colorScheme = useColorScheme()
   const [ loaded ] = useFonts( {
     SpaceMono: require( '../../assets/fonts/Noto_Sans_Mono/NotoSansMono-VariableFont_wdth,wght.ttf' ),
@@ -56,3 +56,5 @@ export default function RootLayout() {
     </ThemeProvider>
   )
 }
+
+export default RootLayout

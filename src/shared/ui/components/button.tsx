@@ -1,29 +1,28 @@
-import { Platform, Pressable, processColor, StyleProp, useColorScheme, ViewStyle } from 'react-native'
+import { Pressable, ViewStyle, TextStyle } from 'react-native'
 import { TextStyleContext } from './text'
 import { Theme } from '@/shared/themes'
-import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 import { useTheme } from '@/shared/hooks/useTheme'
 import Color from 'color'
-import { shadow_xs } from '../styles/shadow'
+import { shadow_sm } from '../styles'
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
 type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
 
-const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVariant, StyleProp<ViewStyle>> => {
+const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVariant, ViewStyle> => {
   return {
     'primary': {
       backgroundColor: theme.primary,
       ...( pressed && {
         backgroundColor: Color( theme.primary ).darken( 0.1 ).hexa()
       } ),
-      ...shadow_xs,
+      ...shadow_sm,
     },
     'secondary': {
       backgroundColor: theme.secondary,
       ...( pressed && {
         backgroundColor: Color( theme.secondary ).darken( 0.2 ).hexa()
       } ),
-      ...shadow_xs,
+      ...shadow_sm,
     },
     'outline': {
       borderWidth: 1,
@@ -32,7 +31,7 @@ const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVar
       ...( pressed && {
         backgroundColor: theme.accent
       } ),
-      ...shadow_xs,
+      ...shadow_sm,
     },
     'ghost': {
       backgroundColor: theme.background,
@@ -48,12 +47,12 @@ const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVar
       ...( pressed && {
         backgroundColor: Color( theme.destructive ).darken( 0.1 ).hexa(),
       } ),
-      ...shadow_xs,
+      ...shadow_sm,
     },
   }
 }
 
-const ButtonSizeStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonSize, StyleProp<ViewStyle>> => {
+const ButtonSizeStyle = ( _theme: Theme, _pressed?: boolean ): Record<ButtonSize, ViewStyle> => {
   return {
     'sm': {
       height: 40,
@@ -76,7 +75,7 @@ const ButtonSizeStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonSize, 
   }
 }
 
-const TextVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVariant, StyleProp<TextStyle>> => {
+const TextVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVariant, TextStyle> => {
   return {
     'primary': {
       color: theme.primary_foreground
@@ -118,7 +117,6 @@ const Button = ( { style, variant = 'primary', size = 'md', disabled, children, 
   const theme = useTheme()
   return (
     <Pressable
-      // className={cn( props.disabled && 'opacity-50', buttonVariants( { variant, size } ), className )}
       style={( { pressed } ) => [
         {
           display: "flex",
@@ -144,7 +142,6 @@ const Button = ( { style, variant = 'primary', size = 'md', disabled, children, 
           value={[
             TextVariantStyle( theme, pressed )[ variant ],
             {
-              fontSize: 14,
               fontWeight: '500',
               flexShrink: 0,
               textAlign: 'center',

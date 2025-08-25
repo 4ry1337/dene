@@ -1,11 +1,11 @@
-import { Text } from 'react-native'
+import { Text } from '@/shared/ui/components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function ProfileScreen() {
+const ProfileScreen = () => {
   return (
     <SafeAreaView>
       <Text>Rakhat</Text>
     </SafeAreaView>
   )
 }
-
+export default ProfileScreen

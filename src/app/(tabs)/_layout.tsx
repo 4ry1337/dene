@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router'
 import { Home, User } from 'lucide-react-native'
 import React from 'react'
 
-export default function TabLayout() {
+const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
@@ -26,4 +26,4 @@ export default function TabLayout() {
     </Tabs>
   )
 }
-
+export default TabLayout
