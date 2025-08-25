@@ -1,10 +1,12 @@
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTheme } from '@/shared/hooks'
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Text, Textarea } from '@/shared/ui/components'
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Text, Textarea, Switch } from '@/shared/ui/components'
+import { useState } from 'react'
 
 const MainScreen = () => {
   const theme = useTheme()
+  const [ check, setCheck ] = useState( true )
 
   return (
     <SafeAreaView>
@@ -23,6 +25,10 @@ const MainScreen = () => {
         <CardContent>
           <View>
             <Textarea />
+            <Switch
+              value={check}
+              onValueChange={() => setCheck( !check )}
+            />
           </View>
         </CardContent>
         <CardFooter
@@ -41,6 +47,10 @@ const MainScreen = () => {
           </Button>
         </CardFooter>
       </Card>
+      <Switch
+        value={check}
+        onValueChange={() => setCheck( !check )}
+      />
     </SafeAreaView>
   )
 }
