@@ -4,6 +4,7 @@ import { Theme } from '@/shared/themes'
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 import { useTheme } from '@/shared/hooks/useTheme'
 import Color from 'color'
+import { shadow_xs } from '../styles/shadow'
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
 type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
@@ -15,30 +16,14 @@ const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVar
       ...( pressed && {
         backgroundColor: Color( theme.primary ).darken( 0.1 ).hexa()
       } ),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowRadius: 2,
-      shadowOpacity: 0.05,
-      elevation: 1,
-      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      ...shadow_xs,
     },
     'secondary': {
       backgroundColor: theme.secondary,
       ...( pressed && {
         backgroundColor: Color( theme.secondary ).darken( 0.2 ).hexa()
       } ),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowRadius: 2,
-      shadowOpacity: 0.05,
-      elevation: 1,
-      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      ...shadow_xs,
     },
     'outline': {
       borderWidth: 1,
@@ -47,15 +32,7 @@ const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVar
       ...( pressed && {
         backgroundColor: theme.accent
       } ),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowRadius: 2,
-      shadowOpacity: 0.05,
-      elevation: 1,
-      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      ...shadow_xs,
     },
     'ghost': {
       backgroundColor: theme.background,
@@ -71,15 +48,7 @@ const ButtonVariantStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonVar
       ...( pressed && {
         backgroundColor: Color( theme.destructive ).darken( 0.1 ).hexa(),
       } ),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowRadius: 2,
-      shadowOpacity: 0.05,
-      elevation: 1,
-      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      ...shadow_xs,
     },
   }
 }
@@ -98,7 +67,6 @@ const ButtonSizeStyle = ( theme: Theme, pressed?: boolean ): Record<ButtonSize, 
     },
     'lg': {
       height: 48,
-      width: 'auto',
       paddingHorizontal: 24,
     },
     'icon': {
