@@ -1,4 +1,4 @@
-import { Text } from '@/shared/ui/components'
+import { Text } from '@/shared/ui'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Index = () => {
