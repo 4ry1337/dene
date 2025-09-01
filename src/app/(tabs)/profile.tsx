@@ -8,4 +8,5 @@ const ProfileScreen = () => {
     </SafeAreaView>
   )
 }
+
 export default ProfileScreen
