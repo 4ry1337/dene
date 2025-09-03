@@ -1,4 +1,5 @@
-import { z } from 'zod'
+import { integer, sqliteTable } from 'drizzle-orm/sqlite-core'
 
-export const SettingsSchema = z.object( {
+export const settings = sqliteTable( 'settings', {
+  push_notifications: integer( { mode: 'boolean' } ),
 } )

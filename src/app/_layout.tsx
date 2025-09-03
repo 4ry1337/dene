@@ -12,14 +12,17 @@ import { openDatabaseSync, SQLiteProvider } from 'expo-sqlite'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import migrations from '@/shared/migrations/migrations'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text } from '@/shared/ui'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Text } from '@/shared/ui'
+import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
 
 const DATABASE_NAME = 'dene'
-const expo = openDatabaseSync( DATABASE_NAME )
-const db = drizzle( expo )
 
 const RootLayout = () => {
+  const expo = openDatabaseSync( DATABASE_NAME )
+  const db = drizzle( expo, { logger: true } )
+
   const { success, error } = useMigrations( db, migrations )
+  useDrizzleStudio( expo )
 
   const colorScheme = useColorScheme()
   const [ loaded ] = useFonts( {
@@ -27,20 +30,40 @@ const RootLayout = () => {
   } )
 
   useEffect( () => {
-    if ( loaded ) {
+    if ( loaded && success ) {
       SplashScreen.hide()
     }
-  }, [ loaded ] )
+  }, [ loaded, success ] )
 
-  if ( !loaded ) {
+  if ( !loaded && !success ) {
     return null
   }
 
   if ( error ) {
     return (
-      <SafeAreaView>
-        <Text>Migration error: {error.message}</Text>
-      </SafeAreaView>
+      <ThemeProvider value={NAV_THEME[ colorScheme ?? 'dark' ]}>
+        <SafeAreaView>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <Text>{error.name}</Text>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Accordion type='multiple'>
+                <AccordionItem value=''>
+                  <AccordionTrigger>
+                    <Text>Error</Text>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <Text>Migration error: {error.message}</Text>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+        </SafeAreaView>
+      </ThemeProvider>
     )
   }
 
