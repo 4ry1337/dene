@@ -6,10 +6,7 @@ import { exercises } from '../exercise/exercise.schema'
 export const workouts = sqliteTable( 'workouts', {
   id: integer().primaryKey( { autoIncrement: true } ),
   title: text().notNull(),
-
-  start_time: integer( "start_time", { mode: "timestamp_ms" } ).notNull(),
-  end_time: integer( "end_time", { mode: "timestamp_ms" } ),
-
+  description: text(),
   created_by: integer().references( () => users.id ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   update_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),

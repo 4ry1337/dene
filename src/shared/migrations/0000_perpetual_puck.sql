@@ -135,8 +135,7 @@ CREATE TABLE `workout_exercise` (
 CREATE TABLE `workouts` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`title` text NOT NULL,
-	`start_time` integer NOT NULL,
-	`end_time` integer,
+	`description` text,
 	`created_by` integer,
 	`created_at` integer DEFAULT (CURRENT_TIMESTAMP),
 	`update_at` integer DEFAULT (CURRENT_TIMESTAMP),

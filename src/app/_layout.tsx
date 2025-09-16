@@ -15,14 +15,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Text } from '@/shared/ui'
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
 
-const DATABASE_NAME = 'dene'
+const DATABASE_NAME = 'dene.db'
+const expo = openDatabaseSync( DATABASE_NAME )
+const db = drizzle( expo, { logger: true } )
 
 const RootLayout = () => {
-  const expo = openDatabaseSync( DATABASE_NAME )
-  const db = drizzle( expo, { logger: true } )
-
   const { success, error } = useMigrations( db, migrations )
-  useDrizzleStudio( expo )
 
   const colorScheme = useColorScheme()
   const [ loaded ] = useFonts( {
