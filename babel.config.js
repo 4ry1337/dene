@@ -6,7 +6,7 @@ export default function (api) {
       "nativewind/babel",
     ],
     plugins: [
-      'react-native-reanimated/plugin',
+      'react-native-worklets/plugin',
       ["inline-import", { "extensions": [".sql"] }]
     ],
   }
