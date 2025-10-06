@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View as RNView, Text as RNText, TextProps, ViewProps } from "react-native"
+import { View as RNView } from "react-native"
 import * as LabelPrimitive from "@rn-primitives/label"
 import {
   Controller,
@@ -10,12 +10,6 @@ import {
   useFormContext,
   useFormState,
 } from "react-hook-form"
-import {
-  SlottableTextProps,
-  SlottableViewProps,
-  TextRef,
-  ViewRef,
-} from "@rn-primitives/types"
 import * as Slot from "@rn-primitives/slot"
 
 import { cn } from "../lib/utils"
