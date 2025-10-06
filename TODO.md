@@ -1,4 +1,3 @@
-- [ ] write description in app.json
-- [ ] create components 
-   - [ ] button component
-
+- [ ] write 'description' in app.json
+- [ ] loading screens or mb skeletons
+- [ ] h5 and h6 styles
