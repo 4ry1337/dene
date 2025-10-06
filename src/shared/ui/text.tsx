@@ -25,6 +25,8 @@ const textVariants = cva(
         ),
         h3: cn( 'text-2xl font-semibold tracking-tight', Platform.select( { web: 'scroll-m-20' } ) ),
         h4: cn( 'text-xl font-semibold tracking-tight', Platform.select( { web: 'scroll-m-20' } ) ),
+        h5: cn( 'text-xl font-semibold tracking-tight', Platform.select( { web: 'scroll-m-20' } ) ),
+        h6: cn( 'text-xl font-semibold tracking-tight', Platform.select( { web: 'scroll-m-20' } ) ),
         p: 'mt-3 leading-7 sm:mt-6',
         blockquote: 'mt-4 border-l-2 pl-3 italic sm:mt-6 sm:pl-6',
         code: cn(
@@ -51,6 +53,8 @@ const ROLE: Partial<Record<TextVariant, Role>> = {
   h2: 'heading',
   h3: 'heading',
   h4: 'heading',
+  h5: 'heading',
+  h6: 'heading',
   blockquote: Platform.select( { web: 'blockquote' as Role } ),
   code: Platform.select( { web: 'code' as Role } ),
 }
@@ -60,6 +64,8 @@ const ARIA_LEVEL: Partial<Record<TextVariant, string>> = {
   h2: '2',
   h3: '3',
   h4: '4',
+  h5: '5',
+  h6: '6',
 }
 
 const TextClassContext = React.createContext<string | undefined>( undefined )
