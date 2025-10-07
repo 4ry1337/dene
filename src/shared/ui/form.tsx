@@ -73,14 +73,14 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 )
 
-function FormItem( { className, asChild, ...props }: React.ComponentProps<typeof RNView> & { asChild?: boolean } ) {
+function FormItem( { className, asChild, ...props }: React.ComponentProps<typeof RNView> & React.RefAttributes<RNView> & { asChild?: boolean } ) {
   const id = React.useId()
   const Component = asChild ? Slot.View : RNView
 
   return (
     <FormItemContext.Provider value={{ id }}>
       <Component className={cn( "space-y-2", className )} {...props} />
-    </FormItemContext.Provider>
+    </FormItemContext.Provider >
   )
 }
 
@@ -100,7 +100,7 @@ function FormLabel( { className, ...props }: React.ComponentProps<typeof LabelPr
   )
 }
 
-function FormControl( { asChild, ...props }: React.ComponentProps<typeof RNView> & { asChild?: boolean } ) {
+function FormControl( { asChild, ...props }: React.ComponentProps<typeof RNView> & React.RefAttributes<RNView> & { asChild?: boolean } ) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
   const Component = asChild ? Slot.View : RNView
 
@@ -116,7 +116,7 @@ function FormControl( { asChild, ...props }: React.ComponentProps<typeof RNView>
   )
 }
 
-function FormDescription( { className, ...props }: React.ComponentProps<typeof Text> ) {
+function FormDescription( { className, ...props }: React.ComponentProps<typeof Text> & React.RefAttributes<Text> ) {
   const { formDescriptionId } = useFormField()
 
   return (
@@ -128,7 +128,7 @@ function FormDescription( { className, ...props }: React.ComponentProps<typeof T
   )
 }
 
-function FormMessage( { className, children, ...props }: React.ComponentProps<typeof Text> ) {
+function FormMessage( { className, children, ...props }: React.ComponentProps<typeof Text> & React.RefAttributes<Text> ) {
   const { error, formMessageId } = useFormField()
   const body = error ? String( error?.message ) : children
 
