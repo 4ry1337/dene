@@ -78,36 +78,6 @@ CREATE TABLE `settings` (
 	`push_notifications` integer
 );
 --> statement-breakpoint
-CREATE TABLE `user_exercise` (
-	`user_id` integer,
-	`exercise_id` integer,
-	`created_at` integer DEFAULT (CURRENT_TIMESTAMP),
-	`deleted_at` integer,
-	PRIMARY KEY(`user_id`, `exercise_id`),
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`exercise_id`) REFERENCES `exercises`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
-CREATE TABLE `user_routine` (
-	`user_id` integer,
-	`routine_id` integer,
-	`created_at` integer DEFAULT (CURRENT_TIMESTAMP),
-	`deleted_at` integer,
-	PRIMARY KEY(`user_id`, `routine_id`),
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`routine_id`) REFERENCES `routines`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
-CREATE TABLE `user_workout` (
-	`user_id` integer,
-	`workout_id` integer,
-	`created_at` integer DEFAULT (CURRENT_TIMESTAMP),
-	`deleted_at` integer,
-	PRIMARY KEY(`user_id`, `workout_id`),
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`workout_id`) REFERENCES `workouts`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
 CREATE TABLE `users` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`email` text NOT NULL,

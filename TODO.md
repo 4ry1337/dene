@@ -10,6 +10,7 @@
    - [ ] date time picker
 - [X] bottom sheet
 - [X] animated drawer
+- [x] fix input text color
 - [ ] onboarding
    - [ ] form
    - [ ] pages

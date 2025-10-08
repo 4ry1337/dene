@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f86395d8-aa59-4e7c-bc31-74bbbbd82a44",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "176a5cda-d03c-4360-8664-5c503151ddee",
+  "prevId": "f86395d8-aa59-4e7c-bc31-74bbbbd82a44",
   "tables": {
     "equipments": {
       "name": "equipments",
@@ -542,6 +542,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "gender": {
           "name": "gender",
           "type": "text",
@@ -607,6 +614,13 @@
           "name": "users_email_unique",
           "columns": [
             "email"
+          ],
+          "isUnique": true
+        },
+        "users_username_unique": {
+          "name": "users_username_unique",
+          "columns": [
+            "username"
           ],
           "isUnique": true
         }
