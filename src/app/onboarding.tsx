@@ -16,7 +16,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { CreateUserDTO, CreateUserSchema } from '@/features/user/create-user'
-import { PrivacyPolicySheet } from '@/widgets'
 import { useRouter } from 'expo-router'
 import { cn } from '@/shared/lib'
 
@@ -26,8 +25,7 @@ const OnboardingScreen = () => {
   const { status } = useSession( { authenticated: false } )
 
   const form = useForm<CreateUserDTO>( {
-    resolver: zodResolver( CreateUserSchema ),
-    defaultValues: {
+    resolver: zodResolver( CreateUserSchema ), defaultValues: {
       email: "",
       username: "",
       unit: "metric",

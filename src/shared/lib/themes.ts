@@ -13,7 +13,7 @@ export const THEME = {
     secondary: 'hsl(60 4.8% 95.9%)',
     secondaryForeground: 'hsl(24 9.8% 10%)',
     muted: 'hsl(60 4.8% 95.9%)',
-    mutedForeground: 'hsl(25 5.3% 44.7%)',
+    mutedForeground: 'hsl(240 2.2% 44.1%)',
     accent: 'hsl(60 4.8% 95.9%)',
     accentForeground: 'hsl(24 9.8% 10%)',
     destructive: 'hsl(0 84.2% 60.2%)',
