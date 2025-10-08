@@ -1,3 +1,4 @@
+import '../global.css'
 import { useEffect } from 'react'
 import { ThemeProvider } from '@react-navigation/native'
 import { NAV_THEME } from '@/shared/lib/themes'
@@ -9,7 +10,6 @@ import { PortalHost } from '@rn-primitives/portal'
 import { drizzle } from 'drizzle-orm/expo-sqlite'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import migrations from '@/shared/migrations/migrations'
-import '../global.css'
 import { DATABASE_NAME } from '@/shared/lib'
 import SessionProvider from '@/shared/hooks/useSession'
 
@@ -46,6 +46,7 @@ const RootLayout = () => {
             <Stack.Screen name="settings" />
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(marketing)" />
           </Stack>
           <PortalHost />
         </SessionProvider>
