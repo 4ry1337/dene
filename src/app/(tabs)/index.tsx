@@ -2,7 +2,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text } from '@/shared/ui'
 import { useSession } from '@/shared/hooks'
 
-const MainScreen = () => {
+const IndexScreen = () => {
   const { data, status } = useSession( { authenticated: true } )
 
   if ( status === "loading" ) {
@@ -21,4 +21,4 @@ const MainScreen = () => {
   )
 }
 
-export default MainScreen 
+export default IndexScreen 

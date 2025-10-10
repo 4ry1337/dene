@@ -1,5 +1,5 @@
 import { useSession } from '@/shared/hooks'
-import { View } from 'react-native'
+import { Animated, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   Text,
@@ -12,12 +12,18 @@ import {
   FormDescription,
   FormMessage,
   Input,
+  DatePicker,
+  textVariants
 } from "@/shared/ui"
+import { HeightPicker } from '@/widgets'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { CreateUserDTO, CreateUserSchema } from '@/features/user/create-user'
 import { useRouter } from 'expo-router'
 import { cn } from '@/shared/lib'
+import PagerView from 'react-native-pager-view'
+
+const AnimatedPagerView = Animated.createAnimatedComponent( PagerView )
 
 const OnboardingScreen = () => {
   const router = useRouter()
@@ -53,8 +59,11 @@ const OnboardingScreen = () => {
   return (
     <SafeAreaView className='flex-1'>
       <Form {...form}>
-        <View className='gap-6'>
-          <View className="px-4 gap-2">
+        <AnimatedPagerView
+          style={{ flexGrow: 1 }}
+          initialPage={0}
+        >
+          <View key={"general"} className="px-4 py-6 gap-2">
             <Text variant={'h3'}>
               General Information
             </Text>
@@ -103,117 +112,130 @@ const OnboardingScreen = () => {
               )}
             />
           </View>
-          <FormField
-            control={form.control}
-            name="unit"
-            render={( {
-              field: { name, value, disabled },
-            } ) => (
-              <FormItem className="px-4 gap-2">
-                <FormLabel asChild>
-                  <Text variant={'h3'}>
+          <View key={"settings"} className="px-4 py-6 gap-2">
+            <FormField
+              control={form.control}
+              name="unit"
+              render={( {
+                field: { name, value, disabled },
+              } ) => (
+                <FormItem className="gap-2">
+                  <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                     Choose metric system
-                  </Text>
-                </FormLabel>
-                <FormControl className='flex flex-row gap-2'>
-                  <Button
-                    className='flex-1'
-                    disabled={disabled}
-                    onPress={() => form.setValue( "unit", "metric" )}
-                    onBlur={() => form.clearErrors( name )}
-                    variant={value === 'metric' ? 'default' : 'secondary'}
-                  >
-                    <Text>
-                      Metric
-                    </Text>
-                  </Button>
-                  <Button
-                    className='flex-1'
-                    disabled={disabled}
-                    onPress={() => form.setValue( "unit", "imperial" )}
-                    onBlur={() => form.clearErrors( name )}
-                    variant={value === 'imperial' ? 'default' : 'secondary'}
-                  >
-                    <Text>
-                      Imperial
-                    </Text>
-                  </Button>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="date_of_birth"
-            render={( { field } ) => {
-              return (
-                <FormItem className="px-4 gap-2">
-                  <FormLabel asChild>
-                    <Text variant={"h3"}>
-                      Date of birth
-                    </Text>
                   </FormLabel>
-                  <FormControl>
-                  </FormControl>
-                  <FormDescription>
-                    Your date of birth is used to calculate your age.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="height"
-            render={( { field } ) => {
-              return (
-                <FormItem className="px-4 gap-2">
-                  <FormLabel>
-                    Height
-                  </FormLabel>
-                  <FormControl>
+                  <FormControl className='flex flex-row gap-2'>
+                    <Button
+                      className='flex-1'
+                      disabled={disabled}
+                      onPress={() => form.setValue( "unit", "metric" )}
+                      onBlur={() => form.clearErrors( name )}
+                      variant={value === 'metric' ? 'default' : 'secondary'}
+                    >
+                      <Text>
+                        Metric
+                      </Text>
+                    </Button>
+                    <Button
+                      className='flex-1'
+                      disabled={disabled}
+                      onPress={() => form.setValue( "unit", "imperial" )}
+                      onBlur={() => form.clearErrors( name )}
+                      variant={value === 'imperial' ? 'default' : 'secondary'}
+                    >
+                      <Text>
+                        Imperial
+                      </Text>
+                    </Button>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
-              )
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="weight"
-            render={( { field } ) => {
-              return (
-                <FormItem className="px-4 gap-2">
-                  <FormLabel>
-                    Weight
-                  </FormLabel>
-                  <FormControl>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <View className='px-4 gap-1'>
-            <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/tos" )}>
-              <Text>
-                Terms of Service
-              </Text>
-            </Button>
-            <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/pp" )}>
-              <Text>
-                Privacy Policy
-              </Text>
-            </Button>
-            <Button size={"lg"} onPress={form.handleSubmit( onSubmit )}>
-              <Text>Submit</Text>
-            </Button>
+              )}
+            />
           </View>
-        </View>
+          <View key={"date_of_birth"} className="px-4 py-6 gap-2">
+            <FormField
+              control={form.control}
+              name="date_of_birth"
+              render={( { field } ) => {
+                const today = new Date()
+                return (
+                  <FormItem className="gap-2">
+                    <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
+                      Date of birth
+                    </FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        minDate={new Date( '1960-01-01' )}
+                        maxDate={today}
+                        date={field.value ?? today}
+                        onDateChanged={field.onChange}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Your date of birth is used to calculate your age.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+          </View>
+
+          <View key={"biometrics"} className="px-4 py-6 gap-2">
+            <FormField
+              control={form.control}
+              name="height"
+              render={( { field } ) => {
+                return (
+                  <FormItem className="gap-2">
+                    <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
+                      Height
+                    </FormLabel>
+                    <FormControl>
+                      <HeightPicker value={field.value} onValueChanged={field.onChange} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="weight"
+              render={( { field } ) => {
+                return (
+                  <FormItem className="gap-2">
+                    <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
+                      Weight
+                    </FormLabel>
+                    <FormControl>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+          </View>
+          <View key={"finish"} className="px-4 py-6 gap-2">
+            <View className='gap-1'>
+              <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/tos" )}>
+                <Text>
+                  Terms of Service
+                </Text>
+              </Button>
+              <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/pp" )}>
+                <Text>
+                  Privacy Policy
+                </Text>
+              </Button>
+              <Button size={"lg"} onPress={form.handleSubmit( onSubmit )}>
+                <Text>Submit</Text>
+              </Button>
+            </View>
+          </View>
+        </AnimatedPagerView>
       </Form>
-    </SafeAreaView >
+    </SafeAreaView>
   )
 }
 
