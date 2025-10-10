@@ -1,4 +1,5 @@
 export * from './themes'
 export * from './dates'
+export * from './metric'
 export * from './utils'
 export * from './variables'

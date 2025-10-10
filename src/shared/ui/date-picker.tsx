@@ -40,6 +40,7 @@ const DatePicker = ( {
       } ]}
       contentContainerStyle={[ contentContainerStyle ]}
       enableScrollByTapOnItem={true}
+      nestedScrollEnabled={false}
       date={toDateId( date )}
       onDateChanged={( { date } ) => onDateChanged( fromDateId( date ) )}
       {...props}
