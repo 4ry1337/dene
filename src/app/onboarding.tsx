@@ -1,5 +1,6 @@
-import { useSession } from '@/shared/hooks'
-import { Animated, View } from 'react-native'
+import * as React from 'react'
+import { useSession, useTheme } from '@/shared/hooks'
+import { ScrollView, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   Text,
@@ -12,23 +13,26 @@ import {
   FormDescription,
   FormMessage,
   Input,
-  DatePicker,
   textVariants
 } from "@/shared/ui"
-import { HeightPicker } from '@/widgets'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { CreateUserDTO, CreateUserSchema } from '@/features/user/create-user'
 import { useRouter } from 'expo-router'
 import { cn } from '@/shared/lib'
-import PagerView from 'react-native-pager-view'
-
-const AnimatedPagerView = Animated.createAnimatedComponent( PagerView )
+import { format } from 'date-fns'
 
 const OnboardingScreen = () => {
   const router = useRouter()
 
+  const theme = useTheme()
+
   const { status } = useSession( { authenticated: false } )
+
+  const [ show, setShow ] = React.useState( false )
+
+  const today = new Date()
 
   const form = useForm<CreateUserDTO>( {
     resolver: zodResolver( CreateUserSchema ), defaultValues: {
@@ -36,7 +40,7 @@ const OnboardingScreen = () => {
       username: "",
       unit: "metric",
       gender: null,
-      date_of_birth: new Date(),
+      date_of_birth: null,
       height: null,
       weight: null,
     },
@@ -45,7 +49,6 @@ const OnboardingScreen = () => {
   function onSubmit( values: CreateUserDTO ) {
     console.log( values )
   }
-
 
   if ( status === "loading" ) {
     return ( <SafeAreaView className='flex-1 justify-center items-center'>
@@ -57,13 +60,10 @@ const OnboardingScreen = () => {
   }
 
   return (
-    <SafeAreaView className='flex-1'>
-      <Form {...form}>
-        <AnimatedPagerView
-          style={{ flexGrow: 1 }}
-          initialPage={0}
-        >
-          <View key={"general"} className="px-4 py-6 gap-2">
+    <Form {...form}>
+      <SafeAreaView className='flex-1'>
+        <ScrollView>
+          <View className="px-4 py-6 gap-2">
             <Text variant={'h3'}>
               General Information
             </Text>
@@ -80,9 +80,9 @@ const OnboardingScreen = () => {
                       className={cn( error && "border-destructive/50" )}
                       editable={!disabled}
                       onBlur={() => form.clearErrors( name )}
+                      value={value}
                       onChangeText={onChange}
                       placeholder='Email'
-                      value={value}
                     />
                   </FormControl>
                   <FormMessage />
@@ -111,8 +111,6 @@ const OnboardingScreen = () => {
                 </FormItem>
               )}
             />
-          </View>
-          <View key={"settings"} className="px-4 py-6 gap-2">
             <FormField
               control={form.control}
               name="unit"
@@ -151,25 +149,45 @@ const OnboardingScreen = () => {
                 </FormItem>
               )}
             />
-          </View>
-          <View key={"date_of_birth"} className="px-4 py-6 gap-2">
             <FormField
               control={form.control}
               name="date_of_birth"
-              render={( { field } ) => {
-                const today = new Date()
+              render={( { field, fieldState } ) => {
                 return (
                   <FormItem className="gap-2">
                     <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                       Date of birth
                     </FormLabel>
                     <FormControl>
-                      <DatePicker
-                        minDate={new Date( '1960-01-01' )}
-                        maxDate={today}
-                        date={field.value ?? today}
-                        onDateChanged={field.onChange}
-                      />
+                      <Button
+                        variant={"outline"}
+                        disabled={field.disabled}
+                        className={cn( fieldState.error && "border-destructive/50" )}
+                        onPress={() => setShow( true )}
+                        onBlur={() => form.clearErrors( field.name )}
+                      >
+                        <Text>
+                          {format( field.value ?? today, "d MMM yyyy" )}
+                        </Text>
+                      </Button>
+                      {show &&
+                        <DateTimePicker
+                          mode="date"
+                          display="spinner"
+                          textColor={theme.cardForeground}
+                          style={{ backgroundColor: theme.card, borderRadius: theme.radius }}
+                          positiveButton={{ textColor: theme.cardForeground }}
+                          neutralButton={{ textColor: theme.cardForeground }}
+                          negativeButton={{ textColor: theme.cardForeground }}
+                          minimumDate={new Date( "1960-01-01" )}
+                          maximumDate={today}
+                          value={field.value ?? today}
+                          onChange={( _, date ) => {
+                            field.onChange( date )
+                            setShow( false )
+                          }}
+                        />
+                      }
                     </FormControl>
                     <FormDescription>
                       Your date of birth is used to calculate your age.
@@ -179,9 +197,6 @@ const OnboardingScreen = () => {
                 )
               }}
             />
-          </View>
-
-          <View key={"biometrics"} className="px-4 py-6 gap-2">
             <FormField
               control={form.control}
               name="height"
@@ -192,7 +207,6 @@ const OnboardingScreen = () => {
                       Height
                     </FormLabel>
                     <FormControl>
-                      <HeightPicker value={field.value} onValueChanged={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -209,14 +223,13 @@ const OnboardingScreen = () => {
                       Weight
                     </FormLabel>
                     <FormControl>
+                      <Input keyboardType='number-pad' value={field.value?.toString()} onChangeText={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )
               }}
             />
-          </View>
-          <View key={"finish"} className="px-4 py-6 gap-2">
             <View className='gap-1'>
               <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/tos" )}>
                 <Text>
@@ -233,9 +246,9 @@ const OnboardingScreen = () => {
               </Button>
             </View>
           </View>
-        </AnimatedPagerView>
-      </Form>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </Form>
   )
 }
 

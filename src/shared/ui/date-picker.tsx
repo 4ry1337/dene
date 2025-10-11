@@ -1,5 +1,5 @@
+/*
 import { DatePicker as WheelDatePicker } from '@quidone/react-native-wheel-picker'
-
 import { fromDateId, toDateId } from '../lib'
 import { useTheme } from '../hooks'
 
@@ -47,5 +47,5 @@ const DatePicker = ( {
     />
   )
 }
-
-export { DatePicker }
+export { DatePicker } 
+*/
