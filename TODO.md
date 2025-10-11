@@ -5,12 +5,12 @@
 - [ ] change styles
    - [ ] button styles
 
-7.10.25
-- [ ] wheel picker
-   - [ ] date time picker
+12.10.25
+- [x] wheel picker
+   - [x] date time picker
 - [X] bottom sheet
 - [X] animated drawer
 - [x] fix input text color
-- [ ] onboarding
-   - [ ] form
-   - [ ] pages
+- [x] onboarding
+   - [x] form
+   - [x] pages
