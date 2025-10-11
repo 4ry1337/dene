@@ -13,26 +13,27 @@ import {
   FormDescription,
   FormMessage,
   Input,
+  BigRadioGroup,
+  BigRadioGroupItem,
   textVariants
 } from "@/shared/ui"
+import { HeightPicker, WeightPicker } from '@/widgets'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { CreateUserDTO, CreateUserSchema } from '@/features/user/create-user'
 import { useRouter } from 'expo-router'
-import { cn } from '@/shared/lib'
+import { cmToInches, cn, inchesToCm, kgToLbs, lbsToKg } from '@/shared/lib'
 import { format } from 'date-fns'
 
 const OnboardingScreen = () => {
   const router = useRouter()
 
-  const theme = useTheme()
+  const { theme } = useTheme()
 
   const { status } = useSession( { authenticated: false } )
 
   const [ show, setShow ] = React.useState( false )
-
-  const today = new Date()
 
   const form = useForm<CreateUserDTO>( {
     resolver: zodResolver( CreateUserSchema ), defaultValues: {
@@ -45,6 +46,28 @@ const OnboardingScreen = () => {
       weight: null,
     },
   } )
+
+  const selected_unit = form.watch( "unit" )
+  const current_height = form.watch( 'height' )
+  const current_weight = form.watch( 'weight' )
+
+  React.useEffect( () => {
+    console.log( "now" )
+    if ( current_height ) {
+      if ( selected_unit === 'imperial' ) {
+        form.setValue( 'height', cmToInches( current_height ) )
+      } else {
+        form.setValue( 'height', inchesToCm( current_height ) )
+      }
+    }
+    if ( current_weight ) {
+      if ( selected_unit === 'imperial' ) {
+        form.setValue( 'weight', kgToLbs( current_weight ) )
+      } else {
+        form.setValue( 'weight', lbsToKg( current_weight ) )
+      }
+    }
+  }, [ selected_unit, current_height, current_weight, form ] )
 
   function onSubmit( values: CreateUserDTO ) {
     console.log( values )
@@ -113,37 +136,51 @@ const OnboardingScreen = () => {
             />
             <FormField
               control={form.control}
-              name="unit"
-              render={( {
-                field: { name, value, disabled },
-              } ) => (
+              name="gender"
+              render={( { field } ) => (
                 <FormItem className="gap-2">
                   <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                     Choose metric system
                   </FormLabel>
-                  <FormControl className='flex flex-row gap-2'>
-                    <Button
-                      className='flex-1'
-                      disabled={disabled}
-                      onPress={() => form.setValue( "unit", "metric" )}
-                      onBlur={() => form.clearErrors( name )}
-                      variant={value === 'metric' ? 'default' : 'secondary'}
+                  <FormControl className='gap-2'>
+                    <BigRadioGroup value={field.value ?? "male"} onValueChange={field.onChange}>
+                      <BigRadioGroupItem value='male'>
+                        <Text>Male</Text>
+                      </BigRadioGroupItem>
+                      <BigRadioGroupItem value="female">
+                        <Text>Female</Text>
+                      </BigRadioGroupItem>
+                      <BigRadioGroupItem value="other">
+                        <Text>Other</Text>
+                      </BigRadioGroupItem>
+                    </BigRadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="unit"
+              render={( { field } ) => (
+                <FormItem className="gap-2">
+                  <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
+                    Choose metric system
+                  </FormLabel>
+                  <FormControl className='gap-2'>
+                    <BigRadioGroup
+                      value={field.value ?? "metric"}
+                      onValueChange={( value ) => {
+                        field.onChange( value )
+                      }}
                     >
-                      <Text>
-                        Metric
-                      </Text>
-                    </Button>
-                    <Button
-                      className='flex-1'
-                      disabled={disabled}
-                      onPress={() => form.setValue( "unit", "imperial" )}
-                      onBlur={() => form.clearErrors( name )}
-                      variant={value === 'imperial' ? 'default' : 'secondary'}
-                    >
-                      <Text>
-                        Imperial
-                      </Text>
-                    </Button>
+                      <BigRadioGroupItem value='metric' >
+                        <Text>Metric</Text>
+                      </BigRadioGroupItem>
+                      <BigRadioGroupItem value="imperial">
+                        <Text>Imperial</Text>
+                      </BigRadioGroupItem>
+                    </BigRadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,6 +190,8 @@ const OnboardingScreen = () => {
               control={form.control}
               name="date_of_birth"
               render={( { field, fieldState } ) => {
+                const today = new Date()
+
                 return (
                   <FormItem className="gap-2">
                     <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
@@ -207,6 +246,13 @@ const OnboardingScreen = () => {
                       Height
                     </FormLabel>
                     <FormControl>
+                      <HeightPicker
+                        unit={selected_unit ?? "metric"}
+                        selectedValue={field.value}
+                        onValueChange={( value, _index ) => field.onChange( value )}
+                        onBlur={() => form.clearErrors( field.name )}
+                        enabled={field.disabled}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -223,8 +269,19 @@ const OnboardingScreen = () => {
                       Weight
                     </FormLabel>
                     <FormControl>
-                      <Input keyboardType='number-pad' value={field.value?.toString()} onChangeText={field.onChange} />
+                      <WeightPicker
+                        unit={selected_unit ?? "metric"}
+                        selectedValue={field.value}
+                        onValueChange={( value, _index ) => field.onChange( value )}
+                        onBlur={() => form.clearErrors( field.name )}
+                        enabled={!field.disabled}
+                      />
                     </FormControl>
+                    {/* field.value && (
+                      <Text className="text-muted-foreground text-sm">
+                        {formatWeight( field.value, selectedUnit )}
+                      </Text>
+                    ) */}
                     <FormMessage />
                   </FormItem>
                 )
@@ -248,7 +305,7 @@ const OnboardingScreen = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </Form>
+    </Form >
   )
 }
 
