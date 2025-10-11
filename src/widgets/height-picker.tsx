@@ -1,5 +1,4 @@
 import { useTheme } from '@/shared/hooks'
-import { withOpacity } from '@/shared/lib'
 import { Picker } from '@react-native-picker/picker'
 import { View } from 'react-native'
 
