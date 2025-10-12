@@ -1,11 +1,7 @@
-import { useSession } from '@/shared/hooks'
 import { Tabs } from 'expo-router'
-import { Home, User } from 'lucide-react-native'
-import React from 'react'
+import { HomeIcon, UserIcon } from 'lucide-react-native'
 
 const TabLayout = () => {
-  useSession( { authenticated: true } )
-
   return (
     <Tabs
       screenOptions={{
@@ -16,14 +12,14 @@ const TabLayout = () => {
         name="index"
         options={{
           title: 'Main',
-          tabBarIcon: ( { color } ) => <Home size={24} color={color} />,
+          tabBarIcon: ({ color }) => <HomeIcon size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ( { color } ) => <User size={24} color={color} />,
+          tabBarIcon: ({ color }) => <UserIcon size={24} color={color} />,
         }}
       />
     </Tabs>

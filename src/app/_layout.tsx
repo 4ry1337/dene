@@ -11,10 +11,10 @@ import { StatusBar } from "expo-status-bar"
 import { PortalHost } from '@rn-primitives/portal'
 
 // Set the animation options. This is optional.
-SplashScreen.setOptions( {
+SplashScreen.setOptions({
   duration: 1000,
   fade: true,
-} )
+})
 
 /* **Important note**: It is recommended to call this in global scope without awaiting, rather than inside React components or hooks, because otherwise this might be called too late, when the splash screen is already hidden.
  */
@@ -30,14 +30,13 @@ const RootLayout = () => {
     >
       <SessionProvider>
         <SplashScreenController />
-        <ThemeProvider value={NAV_THEME[ colorScheme ?? 'dark' ]}>
+        <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
           <Stack screenOptions={{
             headerShown: false
           }}>
-            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(protected)" />
             <Stack.Screen name="(marketing)" />
-            <Stack.Screen name="settings" />
             <Stack.Screen name="onboarding" />
             <Stack.Screen name="+not-found" />
           </Stack>

@@ -1,12 +1,12 @@
-import { useSession } from '@/shared/hooks'
-import { Text } from '@/shared/ui'
-import { LoaderScreen } from '@/widgets'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Text } from '@/shared/ui'
+import { useSession } from '@/shared/hooks'
+import { LoaderScreen } from '@/widgets'
 
-const ProfileScreen = () => {
-  const { data, status } = useSession( { authenticated: true } )
+const MainPage = () => {
+  const { data, status } = useSession({ authenticated: true })
 
-  if ( status === "loading" ) {
+  if (status === "loading") {
     return <LoaderScreen />
   }
 
@@ -17,4 +17,4 @@ const ProfileScreen = () => {
   )
 }
 
-export default ProfileScreen
+export default MainPage 
