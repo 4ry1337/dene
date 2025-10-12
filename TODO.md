@@ -8,6 +8,7 @@
    - [x] form
    - [x] pages
 
+- [ ] make step 2 and 3 of onboarding optional
 - [ ] recheck session logic after creating logout logic
 - [ ] write 'description' in app.json
 - [ ] loading screens or mb skeletons

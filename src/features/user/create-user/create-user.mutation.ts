@@ -1,11 +1,6 @@
-import { DATABASE_NAME } from '@/shared/lib'
-import { drizzle } from 'drizzle-orm/expo-sqlite'
-import { openDatabaseSync } from 'expo-sqlite'
 import { users } from '@/entities/user/user.schema'
 import { CreateUserSchema, type CreateUserDTO } from './create-user.contract'
-
-const expo = openDatabaseSync( DATABASE_NAME )
-const db = drizzle( expo, { logger: true } )
+import { drizzle_db } from '@/shared/lib'
 
 export type CreateUserResult = {
   id: number,
@@ -16,7 +11,7 @@ export type CreateUserResult = {
 export async function createUser( input: CreateUserDTO ): Promise<CreateUserResult> {
   const parsed = CreateUserSchema.parse( input )
 
-  const [ inserted ] = await db.insert( users )
+  const [ inserted ] = await drizzle_db.insert( users )
     .values( parsed )
     .returning( {
       id: users.id,

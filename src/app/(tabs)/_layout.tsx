@@ -1,5 +1,4 @@
 import { useSession } from '@/shared/hooks'
-import { LoaderScreen } from '@/widgets'
 import { Tabs } from 'expo-router'
 import { Home, User } from 'lucide-react-native'
 import React from 'react'

@@ -15,7 +15,7 @@ import {
   BigRadioGroupItem,
   textVariants,
 } from "@/shared/ui"
-import { useTheme } from '@/shared/hooks'
+import { useSession, useTheme } from '@/shared/hooks'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
@@ -26,7 +26,7 @@ import { format } from 'date-fns'
 
 const OnboardingScreen = () => {
   const router = useRouter()
-
+  const { update } = useSession()
   const { theme } = useTheme()
   const totalSteps = 3
   const [ current_step, setCurrentStep ] = React.useState( 1 )
@@ -37,7 +37,7 @@ const OnboardingScreen = () => {
     defaultValues: {
       email: "",
       username: "",
-      unit: "metric",
+      unit: null,
       gender: null,
       date_of_birth: null,
       height: null,
@@ -89,7 +89,11 @@ const OnboardingScreen = () => {
 
       console.log( 'User created successfully:', result )
 
-      router.replace( '/(tabs)' )
+      // update session data
+      await update()
+
+      // Navigate to main app after successful user creation
+      router.replace( "/(tabs)" )
     } catch ( error ) {
       setIsSubmitting( false )
 

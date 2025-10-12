@@ -68,15 +68,17 @@ export function useSession<R extends boolean | undefined>(
   return value as SessionContextValue<R>
 }
 
-const get_session = async (): Promise<Session> => {
-  const [ user ] = await drizzle_db
+const get_session = async (): Promise<Session | null> => {
+  const users_db = await drizzle_db
     .select( { id: users.id, username: users.username } )
     .from( users )
     .limit( 1 )
 
+  if ( users_db.length === 0 ) return null
+
   return {
-    user_id: user.id,
-    username: user.username
+    user_id: users_db[ 0 ].id,
+    username: users_db[ 0 ].username
   }
 }
 
@@ -104,14 +106,14 @@ export const SessionProvider = ( props: PropsWithChildren ) => {
   const value = useMemo( () => ( {
     data: session,
     status: loading
-      ? "loading" as const
+      ? "loading"
       : session
-        ? "authenticated" as const
-        : "unauthenticated" as const,
+        ? "authenticated"
+        : "unauthenticated",
     async update( _data: any ) {
       if ( loading ) return
       setLoading( true )
-      const newSession: Session = await get_session()
+      const newSession = await get_session()
       setLoading( false )
       if ( newSession ) {
         setSession( newSession )

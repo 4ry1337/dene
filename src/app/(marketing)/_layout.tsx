@@ -1,17 +1,17 @@
-import { useTheme } from '@react-navigation/native'
+import { useTheme } from '@/shared/hooks'
 import { Drawer } from 'expo-router/drawer'
 import { EarthLockIcon, HandshakeIcon } from 'lucide-react-native'
 import { Platform } from 'react-native'
 
 const MarketingLayout = () => {
-  const { colors } = useTheme()
+  const { theme } = useTheme()
   return (
     <Drawer
       screenOptions={{
         drawerType: 'slide',
         overlayColor: 'rgba(0, 0, 0, 0.0)',
         headerStyle: [ {
-          backgroundColor: colors.card,
+          backgroundColor: theme.card,
         }, {
           ...Platform.select( {
             android: {
@@ -27,10 +27,10 @@ const MarketingLayout = () => {
         } ],
         drawerStyle: {
           width: '60%',
-          backgroundColor: colors.card,
+          backgroundColor: theme.card,
         },
         sceneStyle: {
-          backgroundColor: colors.card
+          backgroundColor: theme.card
         }
       }}
       backBehavior='history'

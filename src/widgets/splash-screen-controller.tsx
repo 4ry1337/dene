@@ -12,7 +12,7 @@ import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
 export const SplashScreenController = () => {
   const { success, error } = useMigrations( drizzle_db, migrations )
   const { status } = useSession()
-  useDrizzleStudio( expo_db )
+  useDrizzleStudio( expo_db as any )
 
   useEffect( () => {
     if ( status !== "loading" && success ) {
