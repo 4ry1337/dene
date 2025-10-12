@@ -11,7 +11,7 @@ import { drizzle } from 'drizzle-orm/expo-sqlite'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import migrations from '@/shared/migrations/migrations'
 import { DATABASE_NAME } from '@/shared/lib'
-import SessionProvider from '@/shared/hooks/useSession'
+import { SessionProvider } from '@/shared/hooks'
 
 const expo = openDatabaseSync( DATABASE_NAME )
 const db = drizzle( expo, { logger: true } )

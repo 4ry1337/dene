@@ -14,9 +14,8 @@ const ProfileScreen = () => {
   }
 
   return (
-    <SafeAreaView>
-      <Text>Profile</Text>
-      <Text>{data.username}</Text>
+    <SafeAreaView className="flex-1 p-4">
+      <Text variant="h3" className="mb-2">Welcome, {data.username}!</Text>
     </SafeAreaView>
   )
 }

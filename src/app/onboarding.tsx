@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { KeyboardAvoidingView, ScrollView, View, Platform, TouchableOpacity } from 'react-native'
+import { KeyboardAvoidingView, ScrollView, View, Platform, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   Text,
@@ -13,25 +13,26 @@ import {
   Input,
   BigRadioGroup,
   BigRadioGroupItem,
-  textVariants
+  textVariants,
 } from "@/shared/ui"
+import { useSession, useTheme } from '@/shared/hooks'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
-import { CreateUserDTO, CreateUserSchema } from '@/features/user/create-user'
+import { createUser, CreateUserDTO, CreateUserSchema } from '@/features/user/create-user'
 import { useRouter } from 'expo-router'
 import { cmToInches, cn, inchesToCm, kgToLbs, lbsToKg } from '@/shared/lib'
 import { format } from 'date-fns'
-import { useTheme } from '@/shared/hooks'
 
 const OnboardingScreen = () => {
+  const { update } = useSession( { authenticated: false } )
+
   const router = useRouter()
   const { theme } = useTheme()
-
-  const [ current_step, setCurrentStep ] = React.useState( 1 )
-  const [ showDatePicker, setShowDatePicker ] = React.useState( false )
   const totalSteps = 3
-
+  const [ current_step, setCurrentStep ] = React.useState( 1 )
+  const [ isSubmitting, setIsSubmitting ] = React.useState( false )
+  const [ showDatePicker, setShowDatePicker ] = React.useState( false )
   const form = useForm<CreateUserDTO>( {
     resolver: zodResolver( CreateUserSchema ),
     defaultValues: {
@@ -81,8 +82,26 @@ const OnboardingScreen = () => {
     }
   }
 
-  function onSubmit( values: CreateUserDTO ) {
-    console.log( values )
+  async function onSubmit( values: CreateUserDTO ) {
+    try {
+      setIsSubmitting( true )
+
+      const result = await createUser( values )
+
+      console.log( 'User created successfully:', result )
+
+      router.replace( '/(tabs)' )
+    } catch ( error ) {
+      setIsSubmitting( false )
+
+      console.error( 'Error creating user:', error )
+
+      Alert.alert(
+        'Error',
+        'Failed to create account. Please try again.',
+        [ { text: 'OK' } ]
+      )
+    }
   }
 
   const render_step_1 = () => (
@@ -365,33 +384,33 @@ const OnboardingScreen = () => {
             {current_step === 2 && render_step_2()}
             {current_step === 3 && render_step_3()}
           </ScrollView>
-
-          <View className='flex-row gap-1 justify-center p-1'>
-            <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/tos" )}>
-              <Text>Terms of Service</Text>
-            </Button>
-            <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/pp" )}>
-              <Text>Privacy Policy</Text>
-            </Button>
-          </View>
-          <View className="flex flex-row gap-2 px-4 pb-4 pt-1">
-            <Button
-              className={cn( 'flex-1', current_step < 2 && "hidden" )}
-              variant="outline"
-              size='lg'
-              onPress={handleBack}
-            >
-              <Text>Back</Text>
-            </Button>
-            <Button
-              size='lg'
-              onPress={handleNext}
-              className='flex-1'
-            >
-              <Text>{current_step === totalSteps ? 'Submit' : 'Next'}</Text>
-            </Button>
-          </View>
         </KeyboardAvoidingView>
+        <View className='flex-row gap-1 justify-center p-1'>
+          <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/tos" )}>
+            <Text>Terms of Service</Text>
+          </Button>
+          <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/pp" )}>
+            <Text>Privacy Policy</Text>
+          </Button>
+        </View>
+        <View className="flex flex-row gap-2 px-4 pb-4 pt-1">
+          <Button
+            className={cn( 'flex-1', current_step < 2 && "hidden" )}
+            variant="outline"
+            size='lg'
+            onPress={handleBack}
+          >
+            <Text>Back</Text>
+          </Button>
+          <Button
+            disabled={isSubmitting}
+            size='lg'
+            onPress={handleNext}
+            className='flex-1'
+          >
+            <Text>{current_step === totalSteps ? ( isSubmitting ? 'Submitting...' : 'Submit' ) : 'Next'}</Text>
+          </Button>
+        </View>
       </SafeAreaView>
     </Form>
   )

@@ -23,7 +23,7 @@ const TabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="main"
+        name="index"
         options={{
           title: 'Main',
           tabBarIcon: ( { color } ) => <Home size={24} color={color} />,

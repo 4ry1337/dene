@@ -3,7 +3,7 @@ import { Text } from '@/shared/ui'
 import { useSession } from '@/shared/hooks'
 
 const IndexScreen = () => {
-  const { data, status } = useSession( { authenticated: true } )
+  const { status } = useSession( { authenticated: true } )
 
   if ( status === "loading" ) {
     return (
@@ -16,7 +16,6 @@ const IndexScreen = () => {
   return (
     <SafeAreaView>
       <Text>Home</Text>
-      <Text>{data?.username}</Text>
     </SafeAreaView>
   )
 }
