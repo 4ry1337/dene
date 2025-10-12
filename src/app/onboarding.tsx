@@ -15,7 +15,7 @@ import {
   BigRadioGroupItem,
   textVariants,
 } from "@/shared/ui"
-import { useSession, useTheme } from '@/shared/hooks'
+import { useTheme } from '@/shared/hooks'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
@@ -25,9 +25,8 @@ import { cmToInches, cn, inchesToCm, kgToLbs, lbsToKg } from '@/shared/lib'
 import { format } from 'date-fns'
 
 const OnboardingScreen = () => {
-  const { update } = useSession( { authenticated: false } )
-
   const router = useRouter()
+
   const { theme } = useTheme()
   const totalSteps = 3
   const [ current_step, setCurrentStep ] = React.useState( 1 )
@@ -366,7 +365,7 @@ const OnboardingScreen = () => {
     <Form {...form}>
       <SafeAreaView className='flex-1'>
         <View className="flex-row items-center justify-between px-4 py-1 gap-2">
-          {[ 1, 2, 3 ].map( ( step, index ) => (
+          {[ 1, 2, 3 ].map( ( step, _index ) => (
             <React.Fragment key={step}>
               <View className={cn(
                 "flex-1 h-2 rounded-full items-center justify-center bg-primary",

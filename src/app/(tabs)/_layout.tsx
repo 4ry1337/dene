@@ -1,20 +1,11 @@
 import { useSession } from '@/shared/hooks'
-import { Text } from '@/shared/ui'
+import { LoaderScreen } from '@/widgets'
 import { Tabs } from 'expo-router'
 import { Home, User } from 'lucide-react-native'
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 const TabLayout = () => {
-  const { status } = useSession( {
-    authenticated: true
-  } )
-
-  if ( status === "loading" ) {
-    return ( <SafeAreaView className='flex-1'>
-      <Text>Loading</Text>
-    </SafeAreaView> )
-  }
+  useSession( { authenticated: true } )
 
   return (
     <Tabs

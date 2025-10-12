@@ -1,27 +1,28 @@
 import { useSession } from '@/shared/hooks'
-import { SplashScreen } from 'expo-router'
-import { openDatabaseSync } from 'expo-sqlite'
-import { drizzle } from 'drizzle-orm/expo-sqlite'
+import * as SplashScreen from 'expo-splash-screen'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
-import migrations from '@/shared/migrations/migrations'
-import { DATABASE_NAME } from '@/shared/lib'
 import { useEffect } from 'react'
 import { View } from 'react-native'
 import { Text } from '@/shared/ui'
-
-const expo = openDatabaseSync( DATABASE_NAME )
-const db = drizzle( expo, { logger: true } )
+import migrations from '@/shared/migrations/migrations'
+import { drizzle_db, expo_db } from '@/shared/lib'
+import { LoaderScreen } from './loading'
+import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
 
 export const SplashScreenController = () => {
-  const { success, error } = useMigrations( db, migrations )
-  const { isLoading } = useSession()
+  const { success, error } = useMigrations( drizzle_db, migrations )
+  const { status } = useSession()
+  useDrizzleStudio( expo_db )
 
   useEffect( () => {
-    if ( !isLoading && success ) {
+    if ( status !== "loading" && success ) {
       SplashScreen.hide()
     }
-  }, [ success, isLoading ] )
+  }, [ success, status ] )
 
+  if ( !success && status === "loading" ) {
+    return <LoaderScreen />
+  }
 
   if ( error ) {
     return (
@@ -31,7 +32,5 @@ export const SplashScreenController = () => {
     )
   }
 
-  if ( !success && isLoading ) {
-    return null
-  }
+  return null
 }

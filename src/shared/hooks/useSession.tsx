@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router'
-import { createContext, use, type PropsWithChildren, useMemo, useState } from 'react'
-import { useStorageState } from './useStorageState'
+import { createContext, use, type PropsWithChildren, useMemo, useState, useEffect } from 'react'
+import { users } from '@/entities/user/user.schema'
+import { drizzle_db } from '@/shared/lib'
 
 export type Session = {
   user_id: number,
@@ -52,85 +53,74 @@ export function useSession<R extends boolean | undefined>(
   const requiredAndNotLoading =
     authenticated === true && value.status === "unauthenticated"
 
-  if ( requiredAndNotLoading ) {
-    if ( onUnauthenticated ) onUnauthenticated()
-    else router.replace( "/onboarding" )
-  }
-  if ( notrequiredAndNotLoading ) {
-    if ( onAuthenticated ) onAuthenticated()
-    // do nothing if authorized
-  }
-
+  // Use useEffect to handle navigation after render
+  useEffect( () => {
+    if ( requiredAndNotLoading ) {
+      if ( onUnauthenticated ) onUnauthenticated()
+      else router.replace( "/onboarding" )
+    }
+    if ( notrequiredAndNotLoading ) {
+      if ( onAuthenticated ) onAuthenticated()
+      else router.replace( "/(tabs)" )
+      // do nothing if authorized
+    }
+  }, [ notrequiredAndNotLoading, onAuthenticated, onUnauthenticated, requiredAndNotLoading, router ] )
   return value as SessionContextValue<R>
 }
 
-const SessionProvider = ( props: PropsWithChildren ) => {
+const get_session = async (): Promise<Session> => {
+  const [ user ] = await drizzle_db
+    .select( { id: users.id, username: users.username } )
+    .from( users )
+    .limit( 1 )
+
+  return {
+    user_id: user.id,
+    username: user.username
+  }
+}
+
+export const SessionProvider = ( props: PropsWithChildren ) => {
   const { children } = props
 
   const [ session, setSession ] = useState<Session | null>( null )
-
   const [ loading, setLoading ] = useState( true )
 
-  const [ [ isLoading, token ], setToken ] = useStorageState( 'token' )
-
-  useMemo( () => {
-    if ( !isLoading ) {
-      setLoading( false )
-    }
-  }, [ isLoading ] )
-
-  /*
-  const { mutate } = useSWR( "token", refresh, {
-    onSuccess( data ) {
-      setToken( data )
-      if ( data === null ) {
+  useEffect( () => {
+    const checkLocalUser = async () => {
+      try {
+        const session = await get_session()
+        setSession( session )
+      } catch ( error ) {
+        console.error( 'Error checking local user:', error )
+        setSession( null )
+      } finally {
         setLoading( false )
       }
-    },
-    refreshInterval: 5 * 60 * 1000,
-    revalidateOnReconnect: false,
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-  } )
+    }
+    checkLocalUser()
+  }, [] )
 
-  useSWR( token, get_session, {
-    onSuccess( data ) {
-      if ( data != session ) {
-        setSession( data )
-      }
-      setLoading( false )
-    },
-    revalidateOnReconnect: false,
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-  } )
-  */
-
-  let value = useMemo( () => ( {
+  const value = useMemo( () => ( {
     data: session,
     status: loading
-      ? "loading"
-      : token
-        ? "authenticated"
-        : "unauthenticated",
-    async update( data: any ) {
+      ? "loading" as const
+      : session
+        ? "authenticated" as const
+        : "unauthenticated" as const,
+    async update( _data: any ) {
       if ( loading ) return
       setLoading( true )
-      const newSession: Session = {
-        user_id: 1,
-        username: "Rakhat"
-      }
+      const newSession: Session = await get_session()
       setLoading( false )
       if ( newSession ) {
         setSession( newSession )
       }
       return newSession
     }
-  } ), [ token, loading ] )
+  } ), [ session, loading ] )
 
   return (
-    <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
+    <SessionContext.Provider value={value as any}>{children}</SessionContext.Provider>
   )
 }
-
-export default SessionProvider

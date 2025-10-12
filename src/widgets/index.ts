@@ -1,4 +1,5 @@
 export * from './splash-screen-controller'
+export * from './loading'
 export * from './calendar'
 export * from './height-picker'
 export * from './weight-picker'
