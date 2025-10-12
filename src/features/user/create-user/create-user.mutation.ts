@@ -1,4 +1,4 @@
-/* import { DATABASE_NAME } from '@/shared/lib'
+import { DATABASE_NAME } from '@/shared/lib'
 import { drizzle } from 'drizzle-orm/expo-sqlite'
 import { openDatabaseSync } from 'expo-sqlite'
 import { users } from '@/entities/user/user.schema'
@@ -8,13 +8,25 @@ const expo = openDatabaseSync( DATABASE_NAME )
 const db = drizzle( expo, { logger: true } )
 
 export type CreateUserResult = {
-  id: number
+  id: number,
+  username: string,
+  email: string,
 }
 
 export async function createUser( input: CreateUserDTO ): Promise<CreateUserResult> {
   const parsed = CreateUserSchema.parse( input )
 
-  const [ inserted ] = await db.insert( users ).values( parsed ).returning( { id: users.id } )
+  const [ inserted ] = await db.insert( users )
+    .values( parsed )
+    .returning( {
+      id: users.id,
+      username: users.username,
+      email: users.email
+    } )
 
-  return { id: inserted.id }
-} */
+  return {
+    id: inserted.id,
+    username: inserted.username,
+    email: inserted.email
+  }
+}
