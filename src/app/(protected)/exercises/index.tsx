@@ -5,6 +5,7 @@ const ExercisesScreen = () => {
   return (
     <SafeAreaView>
       <Text>
+        All Exercises
       </Text>
     </SafeAreaView>
   )

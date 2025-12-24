@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router'
 import { createContext, use, type PropsWithChildren, useMemo, useState, useEffect } from 'react'
 import { users } from '@/entities/user/user.schema'
 import { drizzle_db } from '@/shared/lib'
@@ -36,7 +35,6 @@ export interface UseSessionOptions<R extends boolean | undefined> {
 export function useSession<R extends boolean | undefined>(
   options?: UseSessionOptions<R>,
 ): SessionContextValue<R> {
-  const router = useRouter()
   const value = use( SessionContext )
 
   if ( !value ) {
@@ -45,26 +43,6 @@ export function useSession<R extends boolean | undefined>(
     )
   }
 
-  const { authenticated, onUnauthenticated, onAuthenticated } = options ?? {}
-
-  const notrequiredAndNotLoading =
-    authenticated === false && value.status === "authenticated"
-
-  const requiredAndNotLoading =
-    authenticated === true && value.status === "unauthenticated"
-
-  // Use useEffect to handle navigation after render
-  useEffect( () => {
-    if ( requiredAndNotLoading ) {
-      if ( onUnauthenticated ) onUnauthenticated()
-      else router.replace( "/onboarding" )
-    }
-    if ( notrequiredAndNotLoading ) {
-      if ( onAuthenticated ) onAuthenticated()
-      else router.replace( "/(tabs)" )
-      // do nothing if authorized
-    }
-  }, [ notrequiredAndNotLoading, onAuthenticated, onUnauthenticated, requiredAndNotLoading, router ] )
   return value as SessionContextValue<R>
 }
 
@@ -111,10 +89,8 @@ export const SessionProvider = ( props: PropsWithChildren ) => {
         ? "authenticated"
         : "unauthenticated",
     async update( _data: any ) {
-      if ( loading ) return
-      setLoading( true )
+      // Don't set loading during updates to prevent guard flicker
       const newSession = await get_session()
-      setLoading( false )
       if ( newSession ) {
         setSession( newSession )
       }

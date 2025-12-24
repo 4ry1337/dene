@@ -29,11 +29,11 @@ const OnboardingScreen = () => {
   const { update } = useSession()
   const { theme } = useTheme()
   const totalSteps = 3
-  const [current_step, setCurrentStep] = React.useState(1)
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [showDatePicker, setShowDatePicker] = React.useState(false)
-  const form = useForm<CreateUserDTO>({
-    resolver: zodResolver(CreateUserSchema),
+  const [ current_step, setCurrentStep ] = React.useState( 1 )
+  const [ isSubmitting, setIsSubmitting ] = React.useState( false )
+  const [ showDatePicker, setShowDatePicker ] = React.useState( false )
+  const form = useForm<CreateUserDTO>( {
+    resolver: zodResolver( CreateUserSchema ),
     defaultValues: {
       email: "",
       username: "",
@@ -43,21 +43,21 @@ const OnboardingScreen = () => {
       height: null,
       weight: null,
     },
-  })
+  } )
 
-  const selected_unit = form.watch("unit")
-  const current_height = form.watch('height')
-  const current_weight = form.watch('weight')
+  const selected_unit = form.watch( "unit" )
+  const current_height = form.watch( 'height' )
+  const current_weight = form.watch( 'weight' )
 
   const validateStep = async () => {
     let isValid = true
 
-    if (current_step === 1) {
-      isValid = await form.trigger(['email', 'username'])
-    } else if (current_step === 2) {
-      isValid = await form.trigger(['gender', 'date_of_birth'])
-    } else if (current_step === 3) {
-      isValid = await form.trigger(['unit', 'height', 'weight'])
+    if ( current_step === 1 ) {
+      isValid = await form.trigger( [ 'email', 'username' ] )
+    } else if ( current_step === 2 ) {
+      isValid = await form.trigger( [ 'gender', 'date_of_birth' ] )
+    } else if ( current_step === 3 ) {
+      isValid = await form.trigger( [ 'unit', 'height', 'weight' ] )
     }
 
     return isValid
@@ -66,43 +66,43 @@ const OnboardingScreen = () => {
   const handleNext = async () => {
     const isValid = await validateStep()
 
-    if (isValid) {
-      if (current_step < totalSteps) {
-        setCurrentStep(current_step + 1)
+    if ( isValid ) {
+      if ( current_step < totalSteps ) {
+        setCurrentStep( current_step + 1 )
       } else {
-        form.handleSubmit(onSubmit)()
+        form.handleSubmit( onSubmit )()
       }
     }
   }
 
   const handleBack = () => {
-    if (current_step > 1) {
-      setCurrentStep(current_step - 1)
+    if ( current_step > 1 ) {
+      setCurrentStep( current_step - 1 )
     }
   }
 
-  async function onSubmit(values: CreateUserDTO) {
+  async function onSubmit( values: CreateUserDTO ) {
     try {
-      setIsSubmitting(true)
+      setIsSubmitting( true )
 
-      const result = await createUser(values)
+      const result = await createUser( values )
 
-      console.log('User created successfully:', result)
+      console.log( 'User created successfully:', result )
 
       // update session data
       await update()
 
       // Navigate to main app after successful user creation
-      router.replace("/(protected)")
-    } catch (error) {
-      setIsSubmitting(false)
+      router.replace( "/(protected)" )
+    } catch ( error ) {
+      setIsSubmitting( false )
 
-      console.error('Error creating user:', error)
+      console.error( 'Error creating user:', error )
 
       Alert.alert(
         'Error',
         'Failed to create account. Please try again.',
-        [{ text: 'OK' }]
+        [ { text: 'OK' } ]
       )
     }
   }
@@ -116,16 +116,16 @@ const OnboardingScreen = () => {
         <FormField
           control={form.control}
           name="email"
-          render={({ field, fieldState }) => (
+          render={( { field, fieldState } ) => (
             <FormItem className="gap-2">
-              <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+              <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                 Email Address
               </FormLabel>
               <FormControl>
                 <Input
-                  className={cn(fieldState.error && "border-destructive/50")}
+                  className={cn( fieldState.error && "border-destructive/50" )}
                   editable={!field.disabled}
-                  onBlur={() => form.clearErrors(field.name)}
+                  onBlur={() => form.clearErrors( field.name )}
                   value={field.value}
                   onChangeText={field.onChange}
                   placeholder='you@example.com'
@@ -141,16 +141,16 @@ const OnboardingScreen = () => {
         <FormField
           control={form.control}
           name="username"
-          render={({ field, fieldState }) => (
+          render={( { field, fieldState } ) => (
             <FormItem className="gap-2">
-              <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+              <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                 Username
               </FormLabel>
               <FormControl>
                 <Input
-                  className={cn(fieldState.error && "border-destructive/50")}
+                  className={cn( fieldState.error && "border-destructive/50" )}
                   editable={!field.disabled}
-                  onBlur={() => form.clearErrors(field.name)}
+                  onBlur={() => form.clearErrors( field.name )}
                   onChangeText={field.onChange}
                   placeholder='johndoe'
                   value={field.value}
@@ -177,15 +177,15 @@ const OnboardingScreen = () => {
           <FormField
             control={form.control}
             name="gender"
-            render={({ field }) => (
+            render={( { field } ) => (
               <FormItem className="gap-2">
-                <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+                <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                   Gender
                 </FormLabel>
                 <FormControl className='gap-2'>
                   <BigRadioGroup
                     value={field.value ?? "male"}
-                    onValueChange={(val) => field.onChange(val)}
+                    onValueChange={( val ) => field.onChange( val )}
                   >
                     <BigRadioGroupItem value='male'>
                       <Text>Male</Text>
@@ -206,9 +206,9 @@ const OnboardingScreen = () => {
           <FormField
             control={form.control}
             name="date_of_birth"
-            render={({ field, fieldState }) => (
+            render={( { field, fieldState } ) => (
               <FormItem className="gap-2">
-                <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+                <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                   Date of Birth
                 </FormLabel>
                 <FormControl>
@@ -216,12 +216,12 @@ const OnboardingScreen = () => {
                     <Button
                       variant={"outline"}
                       disabled={field.disabled}
-                      className={cn(fieldState.error && "border-destructive/50")}
-                      onPress={() => setShowDatePicker(true)}
-                      onBlur={() => form.clearErrors(field.name)}
+                      className={cn( fieldState.error && "border-destructive/50" )}
+                      onPress={() => setShowDatePicker( true )}
+                      onBlur={() => form.clearErrors( field.name )}
                     >
                       <Text>
-                        {format(field.value ?? today, "d MMM yyyy")}
+                        {format( field.value ?? today, "d MMM yyyy" )}
                       </Text>
                     </Button>
                     {showDatePicker && (
@@ -233,12 +233,12 @@ const OnboardingScreen = () => {
                         positiveButton={{ textColor: theme.cardForeground }}
                         neutralButton={{ textColor: theme.cardForeground }}
                         negativeButton={{ textColor: theme.cardForeground }}
-                        minimumDate={new Date("1960-01-01")}
+                        minimumDate={new Date( "1960-01-01" )}
                         maximumDate={today}
                         value={field.value ?? today}
-                        onChange={(_, date) => {
-                          field.onChange(date)
-                          setShowDatePicker(false)
+                        onChange={( _, date ) => {
+                          field.onChange( date )
+                          setShowDatePicker( false )
                         }}
                       />
                     )}
@@ -267,31 +267,31 @@ const OnboardingScreen = () => {
         <FormField
           control={form.control}
           name="unit"
-          render={({ field }) => (
+          render={( { field } ) => (
             <FormItem className="gap-2">
-              <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+              <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                 Unit System
               </FormLabel>
               <FormControl className='gap-2'>
                 <BigRadioGroup
                   value={field.value ?? "metric"}
                   onValueChange={
-                    (val) => {
-                      field.onChange(val)
+                    ( val ) => {
+                      field.onChange( val )
 
-                      if (current_height) {
-                        if (val === 'imperial') {
-                          form.setValue('height', cmToInches(current_height))
+                      if ( current_height ) {
+                        if ( val === 'imperial' ) {
+                          form.setValue( 'height', cmToInches( current_height ) )
                         } else {
-                          form.setValue('height', inchesToCm(current_height))
+                          form.setValue( 'height', inchesToCm( current_height ) )
                         }
                       }
 
-                      if (current_weight) {
-                        if (val === 'imperial') {
-                          form.setValue('weight', kgToLbs(current_weight))
+                      if ( current_weight ) {
+                        if ( val === 'imperial' ) {
+                          form.setValue( 'weight', kgToLbs( current_weight ) )
                         } else {
-                          form.setValue('weight', lbsToKg(current_weight))
+                          form.setValue( 'weight', lbsToKg( current_weight ) )
                         }
                       }
                     }
@@ -313,9 +313,9 @@ const OnboardingScreen = () => {
         <FormField
           control={form.control}
           name="height"
-          render={({ field }) => (
+          render={( { field } ) => (
             <FormItem className="gap-2">
-              <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+              <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                 Height
               </FormLabel>
               <FormControl>
@@ -323,11 +323,11 @@ const OnboardingScreen = () => {
                   keyboardType="numeric"
                   placeholder={selected_unit === "metric" ? "e.g., 175 cm" : "e.g., 69 inches"}
                   value={field.value?.toString() ?? ""}
-                  onChangeText={(text) => {
-                    const num = parseInt(text)
-                    field.onChange(isNaN(num) ? null : num)
+                  onChangeText={( text ) => {
+                    const num = parseInt( text )
+                    field.onChange( isNaN( num ) ? null : num )
                   }}
-                  onBlur={() => form.clearErrors(field.name)}
+                  onBlur={() => form.clearErrors( field.name )}
                   editable={!field.disabled}
                 />
               </FormControl>
@@ -339,9 +339,9 @@ const OnboardingScreen = () => {
         <FormField
           control={form.control}
           name="weight"
-          render={({ field }) => (
+          render={( { field } ) => (
             <FormItem className="gap-2">
-              <FormLabel className={cn(textVariants({ variant: "h3" }))}>
+              <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
                 Weight
               </FormLabel>
               <FormControl>
@@ -349,11 +349,11 @@ const OnboardingScreen = () => {
                   keyboardType="numeric"
                   placeholder={selected_unit === "metric" ? "e.g., 70 kg" : "e.g., 154 lbs"}
                   value={field.value?.toString() ?? ""}
-                  onChangeText={(text) => {
-                    const num = parseInt(text)
-                    field.onChange(isNaN(num) ? null : num)
+                  onChangeText={( text ) => {
+                    const num = parseInt( text )
+                    field.onChange( isNaN( num ) ? null : num )
                   }}
-                  onBlur={() => form.clearErrors(field.name)}
+                  onBlur={() => form.clearErrors( field.name )}
                   editable={!field.disabled}
                 />
               </FormControl>
@@ -369,14 +369,14 @@ const OnboardingScreen = () => {
     <Form {...form}>
       <SafeAreaView className='flex-1'>
         <View className="flex-row items-center justify-between px-4 py-1 gap-2">
-          {[1, 2, 3].map((step, _index) => (
+          {[ 1, 2, 3 ].map( ( step, _index ) => (
             <React.Fragment key={step}>
               <View className={cn(
                 "flex-1 h-2 rounded-full items-center justify-center bg-primary",
                 step > current_step && "bg-primary-foreground/30"
               )} />
             </React.Fragment>
-          ))}
+          ) )}
         </View>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -389,16 +389,16 @@ const OnboardingScreen = () => {
           </ScrollView>
         </KeyboardAvoidingView>
         <View className='flex-row gap-1 justify-center p-1'>
-          <Button size={'sm'} variant={'link'} onPress={() => router.navigate("/(marketing)/tos")}>
+          <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/tos" )}>
             <Text>Terms of Service</Text>
           </Button>
-          <Button size={'sm'} variant={'link'} onPress={() => router.navigate("/(marketing)/pp")}>
+          <Button size={'sm'} variant={'link'} onPress={() => router.navigate( "/(marketing)/pp" )}>
             <Text>Privacy Policy</Text>
           </Button>
         </View>
         <View className="flex flex-row gap-2 px-4 pb-4 pt-1">
           <Button
-            className={cn('flex-1', current_step < 2 && "hidden")}
+            className={cn( 'flex-1', current_step < 2 && "hidden" )}
             variant="outline"
             size='lg'
             onPress={handleBack}
@@ -411,7 +411,7 @@ const OnboardingScreen = () => {
             onPress={handleNext}
             className='flex-1'
           >
-            <Text>{current_step === totalSteps ? (isSubmitting ? 'Submitting...' : 'Submit') : 'Next'}</Text>
+            <Text>{current_step === totalSteps ? ( isSubmitting ? 'Submitting...' : 'Submit' ) : 'Next'}</Text>
           </Button>
         </View>
       </SafeAreaView>

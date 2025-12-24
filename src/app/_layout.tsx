@@ -3,7 +3,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { NAV_THEME, DATABASE_NAME } from '@/shared/lib'
 import { useColorScheme } from 'react-native'
 import { SQLiteProvider } from 'expo-sqlite'
-import { SessionProvider } from '@/shared/hooks'
+import { SessionProvider, useSession } from '@/shared/hooks'
 import { SplashScreenController } from '@/widgets'
 import { ThemeProvider } from '@react-navigation/native'
 import { Stack } from "expo-router"
@@ -20,6 +20,28 @@ SplashScreen.setOptions({
  */
 SplashScreen.preventAutoHideAsync()
 
+const RootNavigator = () => {
+  const { status } = useSession()
+  const isAuthenticated = status === "authenticated"
+
+  return (
+    <Stack screenOptions={{
+      headerShown: false
+    }}>
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(protected)" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="(marketing)" />
+      </Stack.Protected>
+
+      <Stack.Screen name="+not-found" />
+    </Stack>
+  )
+}
+
 const RootLayout = () => {
   const colorScheme = useColorScheme()
 
@@ -32,14 +54,7 @@ const RootLayout = () => {
         <SplashScreenController />
         <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-          <Stack screenOptions={{
-            headerShown: false
-          }}>
-            <Stack.Screen name="(protected)" />
-            <Stack.Screen name="(marketing)" />
-            <Stack.Screen name="onboarding" />
-            <Stack.Screen name="+not-found" />
-          </Stack>
+          <RootNavigator />
           <PortalHost />
         </ThemeProvider>
       </SessionProvider>

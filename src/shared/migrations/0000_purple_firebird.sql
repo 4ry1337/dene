@@ -81,6 +81,7 @@ CREATE TABLE `settings` (
 CREATE TABLE `users` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`email` text NOT NULL,
+	`username` text NOT NULL,
 	`gender` text,
 	`date_of_birth` integer,
 	`height` real,
@@ -92,6 +93,7 @@ CREATE TABLE `users` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
+CREATE UNIQUE INDEX `users_username_unique` ON `users` (`username`);--> statement-breakpoint
 CREATE TABLE `workout_exercise` (
 	`workout_id` integer NOT NULL,
 	`exercise_id` integer NOT NULL,

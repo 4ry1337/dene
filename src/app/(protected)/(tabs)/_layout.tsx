@@ -12,14 +12,14 @@ const TabLayout = () => {
         name="index"
         options={{
           title: 'Main',
-          tabBarIcon: ({ color }) => <HomeIcon size={24} color={color} />,
+          tabBarIcon: ( { color } ) => <HomeIcon size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => <UserIcon size={24} color={color} />,
+          tabBarIcon: ( { color } ) => <UserIcon size={24} color={color} />,
         }}
       />
     </Tabs>

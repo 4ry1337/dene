@@ -4,9 +4,9 @@ import { LoaderScreen } from '@/widgets'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ProfileScreen = () => {
-  const { data, status } = useSession({ authenticated: true })
+  const { data, status } = useSession( { authenticated: true } )
 
-  if (status === "loading") {
+  if ( status === "loading" ) {
     return <LoaderScreen />
   }
 
