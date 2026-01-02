@@ -6,3 +6,5 @@ export const CreateExerciseSchema = z.object( {
   } ),
   description: z.string(),
 } )
+
+export type CreateExerciseDTO = z.infer<typeof CreateExerciseSchema>
