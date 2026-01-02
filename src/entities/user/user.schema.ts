@@ -8,8 +8,8 @@ export const users = sqliteTable( 'users', {
   gender: text( { enum: [ 'male', 'female', 'other' ] } ),
   date_of_birth: integer( { mode: 'timestamp' } ),
 
-  height: real(), // Height in cm or inches based on unit preference
-  weight: real(), // Weight in kg or lbs based on unit preference
+  height_cm: real(), // Height in cm or inches based on unit preference
+  weight_kg: real(), // Weight in kg or lbs based on unit preference
   unit: text( { enum: [ 'metric', 'imperial' ] } ).default( 'metric' ),
 
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),

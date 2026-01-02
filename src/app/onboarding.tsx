@@ -40,14 +40,14 @@ const OnboardingScreen = () => {
       unit: "metric",
       gender: "male",
       date_of_birth: null,
-      height: null,
-      weight: null,
+      height_cm: null,
+      weight_kg: null,
     },
   } )
 
   const selected_unit = form.watch( "unit" )
-  const current_height = form.watch( 'height' )
-  const current_weight = form.watch( 'weight' )
+  const current_height_cm = form.watch( "height_cm" )
+  const current_weight_kg = form.watch( "weight_kg" )
 
   const validateStep = async () => {
     let isValid = true
@@ -57,7 +57,7 @@ const OnboardingScreen = () => {
     } else if ( current_step === 2 ) {
       isValid = await form.trigger( [ 'gender', 'date_of_birth' ] )
     } else if ( current_step === 3 ) {
-      isValid = await form.trigger( [ 'unit', 'height', 'weight' ] )
+      isValid = await form.trigger( [ 'unit', 'height_cm', 'weight_kg' ] )
     }
 
     return isValid
@@ -86,10 +86,10 @@ const OnboardingScreen = () => {
       setIsSubmitting( true )
 
       if ( values.unit === "imperial" ) {
-        if ( values.weight )
-          values.weight = lbsToKg( values.weight )
-        if ( values.height )
-          values.height = lbsToKg( values.height )
+        if ( values.weight_kg )
+          values.weight_kg = lbsToKg( values.weight_kg )
+        if ( values.height_cm )
+          values.height_cm = lbsToKg( values.height_cm )
       }
 
       const result = await createUser( values )
@@ -286,19 +286,19 @@ const OnboardingScreen = () => {
                     ( val ) => {
                       field.onChange( val )
 
-                      if ( current_height ) {
+                      if ( current_height_cm ) {
                         if ( val === 'imperial' ) {
-                          form.setValue( 'height', cmToInches( current_height ) )
+                          form.setValue( 'height_cm', cmToInches( current_height_cm ) )
                         } else {
-                          form.setValue( 'height', inchesToCm( current_height ) )
+                          form.setValue( 'height_cm', inchesToCm( current_height_cm ) )
                         }
                       }
 
-                      if ( current_weight ) {
+                      if ( current_weight_kg ) {
                         if ( val === 'imperial' ) {
-                          form.setValue( 'weight', kgToLbs( current_weight ) )
+                          form.setValue( 'weight_kg', kgToLbs( current_weight_kg ) )
                         } else {
-                          form.setValue( 'weight', lbsToKg( current_weight ) )
+                          form.setValue( 'weight_kg', lbsToKg( current_weight_kg ) )
                         }
                       }
                     }
@@ -319,7 +319,7 @@ const OnboardingScreen = () => {
 
         <FormField
           control={form.control}
-          name="height"
+          name="height_cm"
           render={( { field } ) => (
             <FormItem className="gap-2">
               <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
@@ -345,7 +345,7 @@ const OnboardingScreen = () => {
 
         <FormField
           control={form.control}
-          name="weight"
+          name="weight_kg"
           render={( { field } ) => (
             <FormItem className="gap-2">
               <FormLabel className={cn( textVariants( { variant: "h3" } ) )}>
