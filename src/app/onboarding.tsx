@@ -37,8 +37,8 @@ const OnboardingScreen = () => {
     defaultValues: {
       email: "",
       username: "",
-      unit: null,
-      gender: null,
+      unit: "metric",
+      gender: "male",
       date_of_birth: null,
       height: null,
       weight: null,
@@ -85,6 +85,13 @@ const OnboardingScreen = () => {
     try {
       setIsSubmitting( true )
 
+      if ( values.unit === "imperial" ) {
+        if ( values.weight )
+          values.weight = lbsToKg( values.weight )
+        if ( values.height )
+          values.height = lbsToKg( values.height )
+      }
+
       const result = await createUser( values )
 
       console.log( 'User created successfully:', result )
@@ -93,7 +100,7 @@ const OnboardingScreen = () => {
       await update()
 
       // Navigate to main app after successful user creation
-      router.replace( "/(protected)" )
+      router.replace( "/(protected)/(tabs)" )
     } catch ( error ) {
       setIsSubmitting( false )
 
