@@ -23,14 +23,6 @@ The MVP focuses on usability, simplicity, and compliance with GDPR.
 - Increase user retention through motivational features (badges, streak tracking, reminders).
 
 ---
-## Requirements
-
-- [ ] Create and set workouts, routines, sets and exercises.
-- [ ] Log exercises.
-- [ ] Display workout history and progress via visual charts.
-- [ ] Send push notifications to encourage consistency.
-
----
 ## Definitions
 
 | word | description |
