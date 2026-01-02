@@ -12,8 +12,8 @@ export const user_relations = relations( users, ( { many } ) => ( {
 } ) )
 
 export const user_exercise = sqliteTable( 'user_exercise', {
-  user_id: integer().references( () => users.id, { onDelete: 'cascade' } ),
-  exercise_id: integer().references( () => exercises.id, { onDelete: 'cascade' } ),
+  user_id: integer().notNull().references( () => users.id, { onDelete: 'cascade' } ),
+  exercise_id: integer().notNull().references( () => exercises.id, { onDelete: 'cascade' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   deleted_at: integer( { mode: 'timestamp' } )
 }, ( t ) => [
@@ -32,8 +32,8 @@ export const user_exercise_relations = relations( user_exercise, ( { one } ) => 
 } ) )
 
 export const user_workout = sqliteTable( 'user_workout', {
-  user_id: integer().references( () => users.id, { onDelete: 'cascade' } ),
-  workout_id: integer().references( () => workouts.id, { onDelete: 'cascade' } ),
+  user_id: integer().notNull().references( () => users.id, { onDelete: 'cascade' } ),
+  workout_id: integer().notNull().references( () => workouts.id, { onDelete: 'cascade' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   deleted_at: integer( { mode: 'timestamp' } )
 }, ( t ) => [
@@ -52,8 +52,8 @@ export const user_workout_relations = relations( user_workout, ( { one } ) => ( 
 } ) )
 
 export const user_routine = sqliteTable( 'user_routine', {
-  user_id: integer().references( () => users.id ),
-  routine_id: integer().references( () => routines.id, { onDelete: 'cascade' } ),
+  user_id: integer().notNull().references( () => users.id ),
+  routine_id: integer().notNull().references( () => routines.id, { onDelete: 'cascade' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   deleted_at: integer( { mode: 'timestamp' } )
 }, ( t ) => [

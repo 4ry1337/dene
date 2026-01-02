@@ -7,9 +7,9 @@ export const workouts = sqliteTable( 'workouts', {
   id: integer().primaryKey( { autoIncrement: true } ),
   title: text().notNull(),
   description: text(),
-  created_by: integer().references( () => users.id ),
+  created_by: integer().references( () => users.id, { onDelete: 'set null' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
-  update_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
+  updated_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   deleted_at: integer( { mode: 'timestamp' } )
 } )
 

@@ -6,9 +6,9 @@ import { workouts } from '../workout/workout.schema'
 export const routines = sqliteTable( 'routines', {
   id: integer().primaryKey( { autoIncrement: true } ),
   current: integer( { mode: 'boolean' } ).notNull().default( false ),
-  created_by: integer().references( () => users.id ),
+  created_by: integer().references( () => users.id, { onDelete: 'set null' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
-  update_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
+  updated_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   deleted_at: integer( { mode: 'timestamp' } )
 } )
 

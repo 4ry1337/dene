@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core'
+import { sqliteTable, text, integer, real, primaryKey } from 'drizzle-orm/sqlite-core'
 import { relations, sql } from 'drizzle-orm'
 import { users } from '../user/user.schema'
 import { equipments } from '../equipment/equipment.schema'
@@ -17,7 +17,7 @@ export const exercises = sqliteTable( 'exercises', {
   exercise_type: integer().references( () => exercise_type.id, { onDelete: 'set null' } ),
   created_by: integer().references( () => users.id, { onDelete: 'set null' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(current_timestamp)` ),
-  update_at: integer( { mode: 'timestamp' } ).default( sql`(current_timestamp)` ),
+  updated_at: integer( { mode: 'timestamp' } ).default( sql`(current_timestamp)` ),
   deleted_at: integer( { mode: 'timestamp' } )
 } )
 
@@ -35,7 +35,7 @@ export const exercise_relations = relations( exercises, ( { many, one } ) => ( {
 } ) )
 
 export const exercise_equipment = sqliteTable( 'exercise_equipment', {
-  exercise_id: integer().notNull().references( () => exercises.id ),
+  exercise_id: integer().notNull().references( () => exercises.id, { onDelete: 'cascade' } ),
   equipment_id: integer().notNull().references( () => equipments.id ),
 }, ( t ) => [
   primaryKey( { name: 'id', columns: [ t.equipment_id, t.exercise_id ] } )
@@ -53,9 +53,9 @@ export const exercise_equipment_relations = relations( exercise_equipment, ( { o
 } ) )
 
 export const exercise_muscle = sqliteTable( 'exercise_muscle', {
-  exercise_id: integer().notNull().references( () => exercises.id ),
+  exercise_id: integer().notNull().references( () => exercises.id, { onDelete: 'cascade' } ),
   muscle_id: integer().notNull().references( () => muscles.id ),
-  type: text( { enum: [ "primary", "secondary" ] } )
+  type: text( { enum: [ "primary", "secondary" ] } ).notNull()
 }, ( t ) => [
   primaryKey( { name: 'id', columns: [ t.exercise_id, t.muscle_id ] } )
 ] )
