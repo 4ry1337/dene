@@ -7,22 +7,12 @@ import { useRouter } from 'expo-router'
 import { PlusIcon } from 'lucide-react-native'
 import { useLiveQuery } from 'drizzle-orm/expo-sqlite'
 import { drizzle_db } from '@/shared/lib'
-import { muscle_group } from '@/entities/muscle'
-import { MuscleGroupItem, MuscleGroupList } from '@/widgets/muscle_group'
 import { FlashList } from '@shopify/flash-list'
+import { routines } from '@/entities/routine'
 
 const MainPage = () => {
   const router = useRouter()
   const { data, status } = useSession( { authenticated: true } )
-
-  const muscle_groups = useLiveQuery( drizzle_db.select().from( muscle_group ) )
-
-  if ( muscle_groups.error ) {
-    console.error( muscle_groups.error )
-  }
-
-  console.log( muscle_groups.data )
-
 
   if ( status === "loading" ) {
     return <LoaderScreen />
@@ -45,6 +35,26 @@ const MainPage = () => {
           <Button
             variant={"secondary"}
             className='grow'
+            onPress={() => router.navigate( "/routines" )}
+          >
+            <Text variant={"large"}>
+              Routines
+            </Text>
+          </Button>
+          <Button
+            className='size-12'
+            variant={"secondary"}
+            onPress={() => router.navigate( "/routines/new" )}
+          >
+            <Icon as={PlusIcon} />
+          </Button>
+        </View>
+      </View>
+      <View className='px-4 my-2 border'>
+        <View className='gap-2 flex-row justify-between items-center'>
+          <Button
+            variant={"secondary"}
+            className='grow'
             onPress={() => router.navigate( "/exercises" )}
           >
             <Text variant={"large"}>
@@ -59,15 +69,16 @@ const MainPage = () => {
             <Icon as={PlusIcon} />
           </Button>
         </View>
-        {/* <View className='h-96'>
-          <FlashList
-            data={muscle_groups.data}
-            renderItem={( { item } ) => <MuscleGroupItem className='mb-2' key={item.id} muscle_group={item} />}
-          /> 
-        </View> */}
       </View>
     </SafeAreaView>
   )
 }
+
+// <View className='h-96'>
+//   <FlashList
+//     data={routines_data.data}
+//     renderItem={( { item } ) => <Text className='mb-2' key={item.id} >{item.title}</Text>}
+//   />
+// </View>
 
 export default MainPage 

@@ -1,11 +1,13 @@
 import { sql, relations } from 'drizzle-orm'
-import { integer, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core'
+import { integer, text, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core'
 import { users } from '../user/user.schema'
 import { workouts } from '../workout/workout.schema'
 
 export const routines = sqliteTable( 'routines', {
   id: integer().primaryKey( { autoIncrement: true } ),
   current: integer( { mode: 'boolean' } ).notNull().default( false ),
+  title: text().notNull(),
+  description: text(),
   created_by: integer().references( () => users.id, { onDelete: 'set null' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),
   updated_at: integer( { mode: 'timestamp' } ).default( sql`(CURRENT_TIMESTAMP)` ),

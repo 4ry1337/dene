@@ -9,6 +9,19 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 const NewExercisePage = () => {
   const [ isSubmitting, setIsSubmitting ] = React.useState( false )
+  {/*
+  const muscle_groups = useLiveQuery( drizzle_db.select().from( muscle_group ) )
+
+  if ( muscle_groups.error ) {
+    console.error( muscle_groups.error )
+  }
+
+            <View className='h-96'>
+          <FlashList
+            data={muscle_groups.data}
+            renderItem={( { item } ) => <MuscleGroupItem className='mb-2' key={item.id} muscle_group={item} />}
+          /> 
+        </View> */}
 
   const form = useForm<CreateExerciseDTO>( {
     resolver: zodResolver( CreateExerciseSchema ),

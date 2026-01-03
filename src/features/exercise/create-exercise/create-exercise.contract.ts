@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 export const CreateExerciseSchema = createInsertSchema( exercises, {
   title: z.string().min( 1, {
-    message: 'The exercise title is required.',
+    message: 'Title is required.',
   } ),
 } )
 
