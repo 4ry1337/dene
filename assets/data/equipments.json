@@ -1,0 +1,184 @@
+{
+ "equipments": [
+    {
+      "id": 1,
+      "name": "Barbell",
+      "category": "Free Weights",
+      "image": null
+    },
+    {
+      "id": 2,
+      "name": "Dumbbell",
+      "category": "Free Weights",
+      "image": null
+    },
+    {
+      "id": 3,
+      "name": "Ez Bar",
+      "category": "Free Weights",
+      "image": null
+    },
+    {
+      "id": 4,
+      "name": "Kettlebell",
+      "category": "Free Weights",
+      "image": null
+    },
+    {
+      "id": 5,
+      "name": "Medicine Ball",
+      "category": "Free Weights",
+      "image": null
+    },
+    {
+      "id": 6,
+      "name": "Weight Plate",
+      "category": "Free Weights",
+      "image": null
+    },
+    {
+      "id": 7,
+      "name": "Cable Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 8,
+      "name": "Smith Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 9,
+      "name": "Leg Press Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 10,
+      "name": "Leg Extension Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 11,
+      "name": "Leg Curl Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 12,
+      "name": "Chest Press Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 13,
+      "name": "Shoulder Press Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 14,
+      "name": "Lat Pulldown Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 15,
+      "name": "Seated Row Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 16,
+      "name": "Pec Deck Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 17,
+      "name": "Hip Abductor Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 18,
+      "name": "Hip Adductor Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 19,
+      "name": "Calf Raise Machine",
+      "category": "Machines",
+      "image": null
+    },
+    {
+      "id": 20,
+      "name": "Bodyweight",
+      "category": "Bodyweight",
+      "image": null
+    },
+    {
+      "id": 21,
+      "name": "Pull-up Bar",
+      "category": "Bodyweight",
+      "image": null
+    },
+    {
+      "id": 22,
+      "name": "Dip Station",
+      "category": "Bodyweight",
+      "image": null
+    },
+    {
+      "id": 23,
+      "name": "Bench",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 24,
+      "name": "Incline Bench",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 25,
+      "name": "Decline Bench",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 26,
+      "name": "Resistance Band",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 27,
+      "name": "Suspension Trainer",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 28,
+      "name": "Foam Roller",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 29,
+      "name": "Exercise Ball",
+      "category": "Other",
+      "image": null
+    },
+    {
+      "id": 30,
+      "name": "Box",
+      "category": "Other",
+      "image": null
+    }
+  ]
+}

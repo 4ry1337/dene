@@ -1,0 +1,54 @@
+{
+  "muscle_groups": [
+    {
+      "id": 1,
+      "title": "Chest",
+      "image": null
+    },
+    {
+      "id": 2,
+      "title": "Back",
+      "image": null
+    },
+    {
+      "id": 3,
+      "title": "Shoulders",
+      "image": null
+    },
+    {
+      "id": 4,
+      "title": "Arms",
+      "image": null
+    },
+    {
+      "id": 5,
+      "title": "Legs",
+      "image": null
+    },
+    {
+      "id": 6,
+      "title": "Core",
+      "image": null
+    },
+    {
+      "id": 7,
+      "title": "Glutes",
+      "image": null
+    },
+    {
+      "id": 8,
+      "title": "Neck",
+      "image": null
+    },
+    {
+      "id": 9,
+      "title": "Forearms",
+      "image": null
+    },
+    {
+      "id": 10,
+      "title": "Calves",
+      "image": null
+    }
+  ],
+}
