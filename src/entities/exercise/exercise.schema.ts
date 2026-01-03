@@ -12,9 +12,17 @@ export const exercise_type = sqliteTable( 'exercise_types', {
 
 export const exercises = sqliteTable( 'exercises', {
   id: integer().primaryKey( { autoIncrement: true } ),
+  exercise_type: integer().references( () => exercise_type.id, { onDelete: 'set null' } ),
   title: text().notNull(),
   description: text(),
-  exercise_type: integer().references( () => exercise_type.id, { onDelete: 'set null' } ),
+  instruction: text(),
+  // rest_time: integer().default( 90 ).notNull(),
+  //
+  // reps: integer(),
+  // sets: integer(),
+  // weight: integer(),
+  // duration: integer(),
+  // distance: integer(),
   created_by: integer().references( () => users.id, { onDelete: 'set null' } ),
   created_at: integer( { mode: 'timestamp' } ).default( sql`(current_timestamp)` ),
   updated_at: integer( { mode: 'timestamp' } ).default( sql`(current_timestamp)` ),
