@@ -6,8 +6,8 @@ export const CreateUserSchema = createInsertSchema( users, {
   email: z.email( 'Invalid email address' ),
   username: ( schema ) => schema.min( 3, 'Username must be at least 3 characters' ),
   unit: ( schema ) => schema.nullable(),
-  height: ( schema ) => schema.gt( 0, 'Must be possitive' ),
-  weight: ( schema ) => schema.gt( 0, 'Must be possitive' ),
+  height_cm: ( schema ) => schema.gt( 0, 'Must be possitive' ),
+  weight_kg: ( schema ) => schema.gt( 0, 'Must be possitive' ),
 } )
 
 export type CreateUserDTO = z.infer<typeof CreateUserSchema>
