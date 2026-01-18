@@ -1,21 +1,12 @@
 [application]
+name = "dene"
+default_platform = "mobile"
 
-[web.app]
+[mobile]
+# Android settings
+# [mobile.android]
+# app_id = "com.example.dene"
 
-# HTML title tag content
-title = "dene"
-
-# include `assets` in web platform
-[web.resource]
-
-# Additional CSS style files
-style = []
-
-# Additional JavaScript files
-script = []
-
-[web.resource.dev]
-
-# Javascript code file
-# serve: [dev-server] only
-script = []
+# iOS settings
+# [mobile.ios]
+# bundle_id = "com.example.dene"
