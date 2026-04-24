@@ -1,1 +1,1 @@
-export { Set } from "./model";
+export type { ExerciseSet } from "./model";

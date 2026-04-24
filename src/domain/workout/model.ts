@@ -1,4 +1,5 @@
-import { ExerciseId } from "../exercise";
+import type { ExerciseId } from "../exercise";
+import type { ExerciseSet } from "../set";
 
 export type WorkoutId = string;
 
@@ -7,8 +8,7 @@ export type Workout = {
   name: string;
   exercise_plans: {
     exercise_id: ExerciseId;
-    target_sets?: number;
-    target_reps?: number;
+    target?: ExerciseSet[];
     order: number;
   }[];
   updated_at: number;
