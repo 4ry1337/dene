@@ -1,56 +1,130 @@
-# Welcome to your Expo app 👋
+# Dene
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Fitness logging application
 
-## Get started
+## Principles
 
-1. Install dependencies
+- **Offline-first** — full functionality without connectivity. Sync is additive, never blocking.
+- **Practical** — no social noise, leaderboards, or gamification. Built for real gym use.
+- **Fluid UX** — fast transitions, native-feeling, intuitive without tutorials.
 
-   ```bash
-   npm install
-   ```
+## Platform
 
-2. Start the app
+Expo React Native, iOS + Android
 
-   ```bash
-   npx expo start
-   ```
+## Architecture
 
-In the output, you'll find options to open the app in a
+**Storage**: SQLite (expo-sqlite)
+- Append-only event log
+- Derived state tables (read-optimized)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+**Write path**: Command → validate invariants → append Event → mutate state tables
+- Validation enforces domain invariants before any event is written
+- Transient write failures retry silently; unrecoverable failures surface to user
+- No data loss allowed — every set log is persisted immediately on completion
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+**Undo**: Persistent, multi-step. Stored in event log — undo history survives app restarts. Applies to edit flows (exercises, workouts, routines).
 
-## Get a fresh project
+**Sync**: Automatic and silent — triggers on app open, connectivity restore, and periodically in background. Event log is the sync unit. Conflict resolution TBD. Backend TBD.
 
-When you're ready, run:
+## Features
 
-```bash
-npm run reset-project
-```
+### Onboarding
+- Body parameters: weight, height, age, gender
+- Units: metric
+- Skippable — app is fully usable without completing onboarding
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Exercises
+- Default library shipped with app
+- User can create custom exercises
+- Each exercise has primary and secondary muscle groups
 
-### Other setup steps
+### Workouts
+- Templates: ordered list of exercises with optional target sets
+- Max 20 exercises per workout (tentative technical limit)
+- Max 32 sets per exercise (tentative technical limit)
+- User-created
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### Routines
+- Ordered collection of workouts
+- Multiple routines can be saved; user follows one at a time
 
-## Learn more
+### Logging
 
-To learn more about developing your project with Expo, look at the following resources:
+**Session flow (set-by-set):**
+1. Home shows today's workout — user taps Start
+2. Each screen = one set to log
+3. User logs set → taps Next → rest timer starts
+4. Rest timer ends → signals user (notification/sound) → user taps Continue
+5. Advances to next set (same or next exercise)
+6. When all sets complete → session summary screen
+7. Summary: session stats, optional body weight, optional notes, Finish button
+8. Tap Finish → home
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+**Sessions:**
+- Every session references a workout (can be empty)
+- One active session at a time
+- Session persists across app close and phone shutdown — resumes from last persisted state on reopen
+- Active session timer continues ticking while app is closed
 
-## Join the community
+**Building a session:**
+- Start from an existing workout or an empty one
+- Exercises and sets can be added at any time during the session
+- Exercises can be created or picked from library mid-session
 
-Join our community of developers creating universal apps.
+**Exercise substitution:**
+- Per-set screen shows button to view the exercise
+- From there user can edit or replace the exercise
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Skipping an exercise:**
+- User is asked: do it after next exercise, or skip for this session
+- At session end, if session diverged from workout template, user is prompted to sync changes back (sets and/or exercises via toggles) — declining leaves the template unchanged
+
+**Previous performance:**
+- Each set screen shows last logged result for that set position of that exercise (weight, reps, etc.) from the most recent session it appeared in
+
+**Rest hierarchy (each level overrides the previous):**
+1. Global default (settings)
+2. Workout-level rest
+3. Exercise-level rest
+4. Per-set rest
+
+**Past sessions:**
+- Editable after completion (time, weight, exercises, sets)
+- Changes to exercise library do not cascade to past sessions
+
+### Plate Calculator
+- TBD
+
+### Stats
+- Volume, PRs, muscle frequency
+- TBD
+
+### Social
+- Sharing workouts and routines
+- TBD
+
+## Data Constraints
+
+- Max 20 exercises per workout (tentative)
+- Max 32 sets per exercise (tentative)
+- No hard limits on weight, duration, or distance values
+- No limit on number of workouts or routines
+
+## Decisions
+
+- **Event sourcing over direct mutations** — event log provides replayable, ordered history enabling sync across devices and persistent undo without additional infrastructure
+- **Metric units only** — imperial conversion introduces precision loss
+- **Skippable onboarding** — user should not be forced into setup before using the app
+- **Expo** — best current cross-platform solution for iOS + Android
+- **Session always references a workout** — ensures relational integrity in SQLite; empty workout covers ad-hoc use case
+
+## Deferred
+
+- Auth / cloud sync
+- Stats UI
+- Social features
+- Plate calculator details
+- Navigation structure
+- Supported OS versions
+- Conflict resolution strategy
