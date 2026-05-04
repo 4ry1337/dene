@@ -15,6 +15,8 @@ export type WorkoutSession = {
   deleted_at?: number;
 };
 
+export type ExerciseLogId = string;
+
 export type ExerciseLog = {
   id: string;
   session_id: WorkoutSessionId;
@@ -29,10 +31,11 @@ export type ExerciseLog = {
 
 export type ExerciseSetLog = {
   id: string;
-  exercise_log_id: string;
+  exercise_log_id: ExerciseLogId;
+  set: ExerciseSet;
   order: number;
   completed_at: number;
   created_at: number;
   updated_at: number;
   deleted_at?: number;
-} & ExerciseSet;
+};
