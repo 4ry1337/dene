@@ -1,1 +1,1 @@
-export type { Workout, WorkoutId } from "./model";
+export { WorkoutId, type Workout } from "./model";

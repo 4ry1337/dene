@@ -1,8 +1,13 @@
+import { nominal } from "../shared";
 import type { ExerciseId } from "../exercise";
 import type { ExerciseSet } from "../set";
 import type { WorkoutId } from "../workout";
 
-export type WorkoutSessionId = string;
+export type WorkoutSessionId = string & {
+  readonly _brand: "workout_session_id";
+};
+
+export const WorkoutSessionId = nominal<WorkoutSessionId>();
 
 export type WorkoutSession = {
   id: WorkoutSessionId;
@@ -15,7 +20,11 @@ export type WorkoutSession = {
   deleted_at?: number;
 };
 
-export type ExerciseLogId = string;
+export type ExerciseLogId = string & {
+  readonly _brand: "exercise_log_id";
+};
+
+export const ExerciseLogId = nominal<ExerciseLogId>();
 
 export type ExerciseLog = {
   id: string;

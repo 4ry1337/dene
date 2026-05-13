@@ -1,3 +1,5 @@
+import { nominal } from "../shared";
+
 export type MuscleGroup =
   | "chest"
   | "back"
@@ -6,7 +8,9 @@ export type MuscleGroup =
   | "core"
   | "legs";
 
-export type MuscleId = string;
+export type MuscleId = string & { readonly _brand: "muscle_id" };
+
+export const MuscleId = nominal<MuscleId>();
 
 export type Muscle = {
   id: MuscleId;

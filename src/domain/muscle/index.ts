@@ -1,1 +1,1 @@
-export type { MuscleId, Muscle, MuscleGroup } from "./model";
+export { MuscleId, type Muscle, type MuscleGroup } from "./model";
