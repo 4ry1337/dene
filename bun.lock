@@ -5,6 +5,7 @@
     "": {
       "name": "dene",
       "dependencies": {
+        "@expo-google-fonts/ibm-plex-mono": "^0.4.1",
         "@react-navigation/bottom-tabs": "^7.15.5",
         "@react-navigation/elements": "^2.9.10",
         "@react-navigation/native": "^7.1.33",
@@ -231,6 +232,8 @@
     "@bcoe/v8-coverage": ["@bcoe/v8-coverage@0.2.3", "", {}, "sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw=="],
 
     "@egjs/hammerjs": ["@egjs/hammerjs@2.0.17", "", { "dependencies": { "@types/hammerjs": "^2.0.36" } }, "sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A=="],
+
+    "@expo-google-fonts/ibm-plex-mono": ["@expo-google-fonts/ibm-plex-mono@0.4.1", "", {}, "sha512-/yYz1mPZq8Nd4tSiH0SBDPEdJUqiOGBwVgSrQvLuw7SPh6C7ezBzmi6eFyHY4QaQwjHDmOLSBKsxzq8ZDFXVAg=="],
 
     "@expo-google-fonts/material-symbols": ["@expo-google-fonts/material-symbols@0.4.31", "", {}, "sha512-IKuqICW5oWpBSsr7zvteSKuPNLkpKVmKaZC6AvFMeMfpAHW606wNI9iAdu1ENMpnYw+RHrhQlQC5OxOl9VNikQ=="],
 
