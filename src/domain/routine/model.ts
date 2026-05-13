@@ -1,6 +1,6 @@
-import { WorkoutId } from "../workout";
+import type { WorkoutId } from "../workout";
 
-export type RoutineId = string;
+export type RoutineId = string & { readonly _brand: "routine_id" };
 
 export type Routine = {
   id: RoutineId;
@@ -9,8 +9,8 @@ export type Routine = {
     id: WorkoutId;
     order: number;
   }[];
-  archived_at?: number;
+  archived_at: number | null;
   updated_at: number;
   created_at: number;
-  deleted_at?: number;
+  deleted_at?: number | null;
 };

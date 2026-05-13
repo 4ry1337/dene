@@ -1,3 +1,5 @@
+import { MuscleId } from "../muscle";
+
 export type ExerciseId = string;
 
 export type Exercise = {
@@ -9,5 +11,3 @@ export type Exercise = {
   created_at: number;
   deleted_at?: number;
 };
-
-export type MuscleId = string;

@@ -1,1 +1,1 @@
-export { RoutineId, Routine } from "./model";
+export type { RoutineId, Routine } from "./model";
