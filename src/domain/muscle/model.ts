@@ -18,5 +18,5 @@ export type Muscle = {
   group: MuscleGroup;
   updated_at: number;
   created_at: number;
-  deleted_at?: number;
+  deleted_at: number | null;
 };

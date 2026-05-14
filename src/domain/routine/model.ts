@@ -12,8 +12,8 @@ export type Routine = {
     id: WorkoutId;
     order: number;
   }[];
-  archived_at?: number;
+  archived_at: number | null;
   updated_at: number;
   created_at: number;
-  deleted_at?: number;
+  deleted_at: number | null;
 };

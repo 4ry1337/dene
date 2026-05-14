@@ -16,5 +16,5 @@ export type Workout = {
   }[];
   updated_at: number;
   created_at: number;
-  deleted_at?: number;
+  deleted_at: number | null;
 };
