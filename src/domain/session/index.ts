@@ -1,2 +1,10 @@
-export type { WorkoutSessionEvent } from "./event";
-export type { WorkoutSession, ExerciseLog, ExerciseSetLog } from "./model";
+export {
+  WorkoutSessionId,
+  type WorkoutSession,
+  ExerciseLogId,
+  type ExerciseLog,
+  SetLogId,
+  type SetLog,
+} from "./model";
+
+export { WorkoutSessionEvent, ExerciseLogEvent, SetLogEvent } from "./event";
