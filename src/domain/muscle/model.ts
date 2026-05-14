@@ -1,4 +1,4 @@
-import { nominal } from "../shared";
+import { type Branded, nominal } from "../shared";
 
 export type MuscleGroup =
   | "chest"
@@ -8,7 +8,7 @@ export type MuscleGroup =
   | "core"
   | "legs";
 
-export type MuscleId = string & { readonly _brand: "muscle_id" };
+export type MuscleId = Branded<string, "muscle_id">;
 
 export const MuscleId = nominal<MuscleId>();
 

@@ -1,8 +1,8 @@
-import type { ExerciseId } from "../exercise";
-import type { ExerciseSet } from "../set";
-import { nominal } from "../shared";
+import { type ExerciseId } from "../exercise";
+import { type ExerciseSet } from "../set";
+import { type Branded, nominal } from "../shared";
 
-export type WorkoutId = string & { readonly _brand: "workout_id" };
+export type WorkoutId = Branded<string, "workout_id">;
 
 export const WorkoutId = nominal<WorkoutId>();
 

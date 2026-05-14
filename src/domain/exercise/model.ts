@@ -1,15 +1,9 @@
-import { MuscleId } from "../muscle";
-import { nominal } from "../shared";
+import { type MuscleId } from "../muscle";
+import { type Branded, nominal } from "../shared";
 
-export type ExerciseId = string & { readonly _brand: "exercise_id" };
+export type ExerciseId = Branded<string, "exercise_id">;
 
 export const ExerciseId = nominal<ExerciseId>();
-
-export const ExerciseId = {
-  from(value: string): ExerciseId {
-    return value as ExerciseId;
-  },
-} as const;
 
 export type Exercise = {
   id: ExerciseId;

@@ -1,7 +1,7 @@
-import { nominal } from "../shared";
-import type { WorkoutId } from "../workout";
+import { type Branded, nominal } from "../shared";
+import { type WorkoutId } from "../workout";
 
-export type RoutineId = string & { readonly _brand: "routine_id" };
+export type RoutineId = Branded<string, "routine_id">;
 
 export const RoutineId = nominal<RoutineId>();
 
@@ -12,8 +12,8 @@ export type Routine = {
     id: WorkoutId;
     order: number;
   }[];
-  archived_at: number | null;
+  archived_at?: number;
   updated_at: number;
   created_at: number;
-  deleted_at?: number | null;
+  deleted_at?: number;
 };
