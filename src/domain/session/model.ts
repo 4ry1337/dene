@@ -27,7 +27,7 @@ export type ExerciseLogId = string & {
 export const ExerciseLogId = nominal<ExerciseLogId>();
 
 export type ExerciseLog = {
-  id: string;
+  id: ExerciseLogId;
   session_id: WorkoutSessionId;
   planned_exercise_id?: ExerciseId;
   actual_exercise_id: ExerciseId;
@@ -38,8 +38,14 @@ export type ExerciseLog = {
   deleted_at?: number;
 };
 
-export type ExerciseSetLog = {
-  id: string;
+export type SetLogId = string & {
+  readonly _brand: "set_log_id";
+};
+
+export const SetLogId = nominal<SetLogId>();
+
+export type SetLog = {
+  id: SetLogId;
   exercise_log_id: ExerciseLogId;
   set: ExerciseSet;
   order: number;
