@@ -15,7 +15,7 @@ export const MuscleId = nominal<MuscleId>();
 export type Muscle = {
   id: MuscleId;
   name: string;
-  group: MuscleGroup;
+  group: MuscleGroup | null;
   updated_at: number;
   created_at: number;
   deleted_at: number | null;

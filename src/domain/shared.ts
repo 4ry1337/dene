@@ -1,9 +1,3 @@
-export type Event<Type extends string, Data> = {
-  type: Type;
-  created_at: number;
-  data: Data;
-};
-
 export type Branded<T, K extends string> = T & { readonly _brand: K };
 
 export const nominal =

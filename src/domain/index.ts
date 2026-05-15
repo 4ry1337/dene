@@ -4,3 +4,4 @@ export * from "./routine";
 export * from "./session";
 export * from "./set";
 export * from "./workout";
+export { Event, EventId } from "./event";

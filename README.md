@@ -15,15 +15,27 @@ Expo React Native, iOS + Android
 ## Architecture
 
 **Storage**: SQLite (expo-sqlite)
-- Append-only event log
-- Derived state tables (read-optimized)
+- Append-only event log — source of truth
+- Derived state tables — read-optimized projections, always rebuildable from the event log
 
-**Write path**: Command → validate invariants → append Event → mutate state tables
+**Event log + projections**:
+- All state changes are expressed as immutable, ordered events
+- IDs are generated at command time, before the event is written
+- Events are never updated or deleted — only appended
+- Each event has a unique ID for idempotency — safe to replay without duplicating state
+- Projection tables are the working state — normal mutable rows, always queryable
+
+**Write path**: Command → generate ID → validate invariants → append Event + update projections (single SQLite transaction)
+- Event append and projection update are atomic — no partial state possible
 - Validation enforces domain invariants before any event is written
 - Transient write failures retry silently; unrecoverable failures surface to user
 - No data loss allowed — every set log is persisted immediately on completion
 
+**Read path**: Query projections (state tables) directly — never replay events for reads
+
 **Undo**: Persistent, multi-step. Stored in event log — undo history survives app restarts. Applies to edit flows (exercises, workouts, routines).
+
+**History**: Any past state is reconstructable by replaying events up to a given timestamp.
 
 **Sync**: Automatic and silent — triggers on app open, connectivity restore, and periodically in background. Event log is the sync unit. Conflict resolution TBD. Backend TBD.
 
