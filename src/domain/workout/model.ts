@@ -9,12 +9,14 @@ export const WorkoutId = nominal<WorkoutId>();
 export type Workout = {
   id: WorkoutId;
   name: string;
-  exercise_plans: {
-    exercise_id: ExerciseId;
-    target?: ExerciseSet[];
-    order: number;
-  }[];
+  exercise_plans: WorkoutPlan[];
   updated_at: number;
   created_at: number;
   deleted_at: number | null;
+};
+
+export type WorkoutPlan = {
+  exercise_id: ExerciseId;
+  target?: ExerciseSet[];
+  order: number;
 };

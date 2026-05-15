@@ -8,12 +8,14 @@ export const RoutineId = nominal<RoutineId>();
 export type Routine = {
   id: RoutineId;
   name: string;
-  workouts: {
-    id: WorkoutId;
-    order: number;
-  }[];
+  workouts: RoutineWorkout[];
   archived_at: number | null;
   updated_at: number;
   created_at: number;
   deleted_at: number | null;
+};
+
+export type RoutineWorkout = {
+  id: WorkoutId;
+  order: number;
 };
